@@ -9,16 +9,18 @@
  * 0.2.4 Генерируются значения характеристик в случайном порядке. В зависимости от выбранных значений.                */
 
 import com.sun.deploy.security.SelectableSecurityManager;
+import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
+
 import javax.crypto.spec.PSource;
 import java.util.*;
 class Create_Unit //*********************-=-> создание Unit'a <-=-******************************************************
 {
+    Random rand = new Random();
     public String Unit_Race(int race_in)
     {
         String [] race_array = {"Дварф", "Эльф", "Полурослик", "Человек", "Дроконорожденный", "Гном", "Полуэльф",
                 "Полуорк", "Тифлинг"};
         return race_array[race_in - 1];
-
     }
     public String Unit_Gender(int gender_in)
     {
@@ -31,6 +33,41 @@ class Create_Unit //*********************-=-> создание Unit'a <-=-******
                 "Колдун","Волшебник"};
         return class_array[clas_in - 1];
     }
+    public String Military_Weapons ()
+    {
+        int weapon_1 = rand.nextInt(18);
+        String [] military_weapon = {"Секира.","Алебарда.","Боевая кирка.","Боевой молот.","Боевой топор.","Глефа.",
+                "Двуручный меч.","Длинное копьё.","Длинный меч.","Кнут.","Короткий меч.","Молот.","Моргенштерн.",
+                "Пика.","Рапира.","Секира.","Скимитар.","Трезубец.","Цеп."};
+        return military_weapon[weapon_1];
+    }
+    public String Simple_Weapons(String choice_array)
+    {
+        String out = "";
+        if (choice_array == "full")
+        {
+            int weapon_2 = rand.nextInt(15);
+            String [] simple_weapon = {"Два ручных топора.","Боевой посох.","Булава.","Дубинка.","Кинжал.","Копьё.",
+                    "Лёгкий молот.","Метательное копьё.","Палица.","Ручной топор.","Серп.","Лёгкий арбалет.","Дротик.",
+                    "Короткий лук.","Праща."};
+            out =  simple_weapon[weapon_2];
+        }
+        if (choice_array == "melee")
+        {
+            int melee_weapon = rand.nextInt(7);
+            String [] simple_weapon = {"Боевой посох.","Булава.","Дубинка.","Лёгкий молот.","Кинжал.","Палица.",
+                    "Серп."};
+            out = simple_weapon[melee_weapon];
+        }
+        if (choice_array == "ranged")
+        {
+            int ranged_weapon = rand.nextInt(8);
+            String [] simple_weapon = {"Кинжал.","Копьё.","Метательное копьё.","Ручной топор.","Лёгкий арбалет.",
+                    "Дротик.", "Короткий лук.","Праща."};
+            out = simple_weapon[ranged_weapon];
+        }
+        return out;
+    }
 }
 //------------------------------------------> ОПИСАНИЕ РАС ПЕРСОНАЖЕЙ <-------------------------------------------------
 class Dwarf //++++++++++++++++++++++++++++=-> раса Дварф <-=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -41,7 +78,7 @@ class Dwarf //++++++++++++++++++++++++++++=-> раса Дварф <-=+++++++++++
         if (gender_in == "Мужской")
         {
             int dwarf_male_size = 30;
-            int dwarf_male_choice = (rand.nextInt(dwarf_male_size) + 1);
+            int dwarf_male_choice = rand.nextInt(dwarf_male_size);
             String [] Dwarf_Names_Male = {"Адрик","Альберих","Баренд","Баэрн","Броттор","Бруенор","Вондал","Вэйт",
                     "Гардаин","Даин","Даррак","Делг","Килдрак","Моргран","Орсик","Оскар","Рангрим","Рюрик","Талклин",
                     "Торадин","Тордек","Торин","Травок","Траубон","Ульфгар","Фаргрим","Флинт","Харбек","Эберк",
@@ -51,18 +88,18 @@ class Dwarf //++++++++++++++++++++++++++++=-> раса Дварф <-=+++++++++++
         else
         {
             int dwarf_female_array_size = 23;
-            int dwarf_female_choice = (rand.nextInt(dwarf_female_array_size) + 1);
+            int dwarf_female_choice = rand.nextInt(dwarf_female_array_size);
             String [] Dwarf_Names_Female = {"Артин","Бардрин","Вистра","Гуннлода","Гурдис","Дагнал","Диеза","Илде",
                     "Катра","Кристид","Лифтраса","Мардред","Одхильд","Рисвин","Саннл","Тробера","Торгга","Фалкрунн",
                     "Финеллен","Хельджа","Хлин","Эльдет","Эмбер"};
-            System.out.println ("\nИмя: " + Dwarf_Names_Female[dwarf_female_choice - 1]);
+            System.out.println ("\nИмя: " + Dwarf_Names_Female[dwarf_female_choice]);
         }
         int dwarf_clans_array_size = 15;
         String [] Clans = {"Балдерк","Боевой молот","Горунн","Данкил","Железный кулак","Крепкая наковальня",
                 "Ледяная борода","Лодерр","Лютгер","Огненная кузня","Рамнахейм","Стракелн","Торунн","Унгарт",
                 "Холдерхек"};
-        int dwarf_clan_choice = (rand.nextInt(dwarf_clans_array_size) + 1);
-        System.out.println ("Клан: " + Clans[dwarf_clan_choice - 1]);
+        int dwarf_clan_choice = rand.nextInt(dwarf_clans_array_size);
+        System.out.println ("Клан: " + Clans[dwarf_clan_choice]);
     }
     static void Discription_Dwarf ()
     {
@@ -107,8 +144,8 @@ class Elf //++++++++++++++++++++++++++++++=-> раса Эльф <-=+++++++++++++
                     "Галинндан","Ивеллиос","Иммераль","Каррик","Куарион","Лаусиан","Мандартис","Паэлиас","Перен",
                     "Риардон","Ролен","Совелисс","Тамиорн","Таривол","Терен","Хадарай","Химо","Хэйян","Эниалис",
                     "Эрдан","Эреван"};
-            int elf_male_choice = (rand.nextInt(elf_male_size) + 1);
-            System.out.println("\nИмя: " + Elf_Male_Names[elf_male_choice - 1]);
+            int elf_male_choice = rand.nextInt(elf_male_size);
+            System.out.println("\nИмя: " + Elf_Male_Names[elf_male_choice]);
         }
         else
         {
@@ -117,15 +154,15 @@ class Elf //++++++++++++++++++++++++++++++=-> раса Эльф <-=+++++++++++++
                     "Валанте","Джеленетт","Друсилиа","Йелениа","Каэлинн","Квеленна","Квиласи","Кейлет","Ксанафия",
                     "Лешанна","Лиа","Миали","Мэриэль","Найвара","Сариэль","Силакви","Теирастра","Тиа","Фелосиаль",
                     "Шава","Шанайра","Энна"};
-            int choice = (rand.nextInt(size) + 1);
-            System.out.println("\nИмя: " + Names_female[choice - 1]);
+            int choice = rand.nextInt(size);
+            System.out.println("\nИмя: " + Names_female[choice]);
         }
         int size = 9;
         String [] Surnames = {"Амакиир (Сверкающий Цветок)","Амастасия (Звёздный Цветок)","Галанодель (Лунный Шёпот)",
                 "Ильфелкиир (Сверкающий Бутон)","Ксилосент (Золотой Лепесток)","Лиадон (Серебрянный Лист)",
                 "Найло (Ночной Бриз)","Сианодель (Лунный Ручей)","Холимион (Алмазная Роса)"};
-        int choice = (rand.nextInt(size) + 1);
-        System.out.println("Фамилия: " + Surnames[choice - 1]);
+        int choice = rand.nextInt(size);
+        System.out.println("Фамилия: " + Surnames[choice]);
     }
     static void Discription_Elf ()
     {
@@ -171,22 +208,22 @@ class Halfling //+++++++++++++++++++++++++=-> раса Полурослик <-=+
             int size = 17;
             String [] Names_Male = {"Альтон","Андер","Гаррет","Кейд","Коррин","Лайл","Линдал","Майло","Меррик","Осборн",
                     "Перрин","Рид","Роско","Уэллби","Финнан","Элдон","Эррих"};
-            int choice = (rand.nextInt(size) + 1);
-            System.out.println("\nИмя: " + Names_Male[choice - 1]);
+            int choice = rand.nextInt(size);
+            System.out.println("\nИмя: " + Names_Male[choice]);
         }
         else
         {
             int size = 18;
             String [] Names_Female = {"Бри","Вани","Верна","Джиллиан","Китри","Кора","Кэлли","Лавиния","Лидда","Мерла",
                     "Паэла","Портия","Серафина","Трим","Шаэна","Эндри","Юфемия"};
-            int choice = (rand.nextInt(size) + 1);
-            System.out.println("\nИмя: " + Names_Female[choice - 1]);
+            int choice = rand.nextInt(size);
+            System.out.println("\nИмя: " + Names_Female[choice]);
         }
         int size = 10;
         String [] Surnames = {"Вверхтормашкин","Высокохолм","Галькоброс","Добробочка","Зеленофляг","Кустосбор",
                     "Лугодуг","Подветкин","Репейник","Чайнолист"};
-        int choice = (rand.nextInt(size) + 1);
-        System.out.println("Фамилия: " + Surnames[choice - 1]);
+        int choice = rand.nextInt(size);
+        System.out.println("Фамилия: " + Surnames[choice]);
     }
     static void Discription_Halfling ()
     {
@@ -224,61 +261,61 @@ class Human //++++++++++++++++++++++++++++=-> раса Человек <-=+++++++
         Random rand = new Random();
         int size_ethnos = 9;
         String [] Ethnos = {"Дамарец","Иллусканец","Калишит","Мулан","Рашеми","Тетирец","Тёрами","Чондатанец","Шу"};
-        int choice_ethnos = (rand.nextInt(size_ethnos) + 1);
-        System.out.println("\nЭтнос: " + Ethnos[choice_ethnos - 1]);
-        if (Ethnos[choice_ethnos - 1] == "Дамарец")//++++++++++=-> этнос Дамарец <-=++++++++++++++++++++++++++++++++++++
+        int choice_ethnos = rand.nextInt(size_ethnos);
+        System.out.println("\nЭтнос: " + Ethnos[choice_ethnos]);
+        if (Ethnos[choice_ethnos] == "Дамарец")//++++++++++=-> этнос Дамарец <-=++++++++++++++++++++++++++++++++++++
         {
             if (gender == "Мужской")
             {
                 int damar_male_size = 11;
                 String [] Damar_Names_Male = {"Айвор","Бор","Глэр","Григор","Иган","Козеф","Миваль","Орел","Павел",
                         "Сергор","Фодель"};
-                int damar_male_choice = (rand.nextInt(damar_male_size) + 1);
-                System.out.println("\nИмя: " + Damar_Names_Male[damar_male_choice - 1]);
+                int damar_male_choice = rand.nextInt(damar_male_size);
+                System.out.println("\nИмя: " + Damar_Names_Male[damar_male_choice]);
             }
             else
             {
                 int damar_female_size = 8;
                 String [] Damar_Names_Female = {"Алетра","Зора","Кара","Катернин","Мара","Натали","Ольма","Тана"};
-                int damar_female_choice = (rand.nextInt(damar_female_size) + 1);
-                System.out.println("\nИмя: " + Damar_Names_Female[damar_female_choice - 1]);
+                int damar_female_choice = rand.nextInt(damar_female_size);
+                System.out.println("\nИмя: " + Damar_Names_Female[damar_female_choice]);
             }
             int damar_surnames_size = 8;
             String [] Damar_Surnames = {"Берск","Дотск","Куленов","Марск","Немецк","Стараг","Чернин","Шемов"};
-            int damar_surnames_choice = (rand.nextInt(damar_surnames_size) + 1);
-            System.out.println("Фамилия: " + Damar_Surnames[damar_surnames_choice - 1]);
+            int damar_surnames_choice = rand.nextInt(damar_surnames_size);
+            System.out.println("Фамилия: " + Damar_Surnames[damar_surnames_choice]);
         }
-        if (Ethnos[choice_ethnos - 1] == "Иллусканец")//++++++++++=-> этнос Иллусканец <-=++++++++++++++++++++++++++++++
+        if (Ethnos[choice_ethnos] == "Иллусканец")//++++++++++=-> этнос Иллусканец <-=++++++++++++++++++++++++++++++
         {
             if (gender == "Мужской")
             {
                 int iluskan_male_size = 11;
                 String [] Iluskan_Names_Male = {"Блас","Бран","Гет","Ландер","Лют","Малсер","Стор","Таман","Урт","Фрат",
                         "Эндер"};
-                int iluskan_choice = (rand.nextInt(iluskan_male_size) + 1);
-                System.out.println("Имя: " + Iluskan_Names_Male[iluskan_choice - 1]);
+                int iluskan_choice = rand.nextInt(iluskan_male_size);
+                System.out.println("Имя: " + Iluskan_Names_Male[iluskan_choice]);
             }
             else
             {
                 int iluskan_female_size = 8;
                 String [] Iluskan_Names_Female  = {"Амафрея","Бетха","Вестра","Кетра","Мара","Ольга","Силифрей",
                         "Цефрея"};
-                int iluskan_female_choice = (rand.nextInt(iluskan_female_size) + 1);
-                System.out.println("Имя: " + Iluskan_Names_Female[iluskan_female_choice - 1]);
+                int iluskan_female_choice = rand.nextInt(iluskan_female_size);
+                System.out.println("Имя: " + Iluskan_Names_Female[iluskan_female_choice]);
             }
             int iluskan_surnames_size = 6;
             String [] Iluskan_Surnames  = {"Брайтвуд","Виндривер","Лакмэн","Хелдер","Хорнрейвен","Штормвинд"};
-            int iluskan_surnames_choice = (rand.nextInt(iluskan_surnames_size) + 1);
-            System.out.println("Фамилия: " + Iluskan_Surnames[iluskan_surnames_choice - 1]);
+            int iluskan_surnames_choice = rand.nextInt(iluskan_surnames_size);
+            System.out.println("Фамилия: " + Iluskan_Surnames[iluskan_surnames_choice]);
         }
-        if (Ethnos[choice_ethnos - 1] =="Калишит")//++++++++++=-> этнос Калишит <-=+++++++++++++++++++++++++++++++++++++
+        if (Ethnos[choice_ethnos] =="Калишит")//++++++++++=-> этнос Калишит <-=+++++++++++++++++++++++++++++++++++++
         {
             if (gender == "Мужской")
             {
                 int kalishit_male_size = 7;
                 String [] Kalishit_Names_Male = {"Асеир","Бардеид","Зашеир","Кхемед","Мехмен","Судейман","Хасеид"};
-                int kalishit_male_choice = (rand.nextInt(kalishit_male_size) + 1);
-                System.out.println("Имя: " + Kalishit_Names_Male[kalishit_male_choice - 1]);
+                int kalishit_male_choice = rand.nextInt(kalishit_male_size);
+                System.out.println("Имя: " + Kalishit_Names_Male[kalishit_male_choice]);
             }
             else
             {
@@ -290,122 +327,122 @@ class Human //++++++++++++++++++++++++++++=-> раса Человек <-=+++++++
             }
             int kalishit_surnames_size = 7;
             String [] Kalishit_Surnames = {"Баша","Джассан","Думеин","Кхалид","Мостана","Пашар","Рейн"};
-            int kalishit_surnames_choice = (rand.nextInt(kalishit_surnames_size) + 1);
-            System.out.println("Фамилия: " + Kalishit_Surnames[kalishit_surnames_choice - 1]);
+            int kalishit_surnames_choice = rand.nextInt(kalishit_surnames_size);
+            System.out.println("Фамилия: " + Kalishit_Surnames[kalishit_surnames_choice]);
         }
-        if (Ethnos[choice_ethnos - 1] == "Мулан")//++++++++++=-> этнос Мулан <-=++++++++++++++++++++++++++++++++++++++++
+        if (Ethnos[choice_ethnos] == "Мулан")//++++++++++=-> этнос Мулан <-=++++++++++++++++++++++++++++++++++++++++
         {
             if (gender == "Мужской")
             {
                 int mulan_male_size = 9;
                 String [] Mulan_Names_Male = {"Аот","Берерис","Кетот","Мумед","Рамас","Со-Кехур","Тхазар-Де","Урхур",
                         "Эхпут-Ки"};
-                int mulan_male_choice = (rand.nextInt(mulan_male_size) + 1);
-                System.out.println("Имя: " + Mulan_Names_Male[mulan_male_choice - 1]);
+                int mulan_male_choice = rand.nextInt(mulan_male_size);
+                System.out.println("Имя: " + Mulan_Names_Male[mulan_male_choice]);
             }
             else
             {
                 int mulan_female_size = 9;
                 String [] Mulan_Names_Female = {"Аризима","Золис","Мурити","Нефис","Нулара","Сефрис","Тола","Умара",
                         "Чатхи"};
-                int mulan_female_choice = (rand.nextInt(mulan_female_size) + 1);
-                System.out.println("Имя: " + Mulan_Names_Female[mulan_female_choice - 1]);
+                int mulan_female_choice = rand.nextInt(mulan_female_size);
+                System.out.println("Имя: " + Mulan_Names_Female[mulan_female_choice]);
             }
             int mulan_surnames_size = 7;
             String [] Mulan_Surnames = {"Анкхалаб","Анскульд","Натандем","Серпет","Уутракт","Фезим","Хахпет"};
-            int mulan_surnames_choice = (rand.nextInt(mulan_surnames_size) + 1);
-            System.out.println("Фамилия: " + Mulan_Surnames[mulan_surnames_choice - 1]);
+            int mulan_surnames_choice = rand.nextInt(mulan_surnames_size);
+            System.out.println("Фамилия: " + Mulan_Surnames[mulan_surnames_choice]);
         }
-        if (Ethnos[choice_ethnos - 1] == "Рашеми")//++++++++++=-> этнос Рашеми <-=++++++++++++++++++++++++++++++++++++++
+        if (Ethnos[choice_ethnos] == "Рашеми")//++++++++++=-> этнос Рашеми <-=++++++++++++++++++++++++++++++++++++++
         {
             if (gender == "Мужской")
             {
                 int rashemi_male_size = 8;
                 String [] Rashemi_Names_Male = {"Боривик","Владислак","Джандар","Канитар","Мадислак","Ральмевик",
                         "Фаургар","Шаумар"};
-                int rashemi_male_choice = (rand.nextInt(rashemi_male_size) + 1);
-                System.out.println("Имя: " + Rashemi_Names_Male[rashemi_male_choice - 1]);
+                int rashemi_male_choice = rand.nextInt(rashemi_male_size);
+                System.out.println("Имя: " + Rashemi_Names_Male[rashemi_male_choice]);
             }
             else
             {
                 int rashemi_female_size = 8;
                 String [] Rashemi_Names_Female = {"Имзель","Иммит","Наварра","Таммит","Файварра","Хульмарра","Шеварра",
                         "Юльдра"};
-                int rashemi_female_choice = (rand.nextInt(rashemi_female_size) + 1);
-                System.out.println("Имя: " + Rashemi_Names_Female[rashemi_female_choice - 1]);
+                int rashemi_female_choice = rand.nextInt(rashemi_female_size);
+                System.out.println("Имя: " + Rashemi_Names_Female[rashemi_female_choice]);
             }
             int rashemi_surnames_size = 6;
             String [] Rashemi_Surnames = {"Дайрнина","Илтазяра","Мурнитара","Стаянога","Улмокина","Чергоба"};
-            int rashemi_surnames_choice = (rand.nextInt(rashemi_surnames_size) + 1);
-            System.out.println("Фамилия: " + Rashemi_Surnames[rashemi_surnames_choice - 1]);
+            int rashemi_surnames_choice = rand.nextInt(rashemi_surnames_size);
+            System.out.println("Фамилия: " + Rashemi_Surnames[rashemi_surnames_choice]);
         }
-        if ((Ethnos[choice_ethnos - 1] == "Тетирец") || (Ethnos[choice_ethnos - 1]) == "Чондатанец")//+=-> парный этнос
+        if ((Ethnos[choice_ethnos] == "Тетирец") || (Ethnos[choice_ethnos]) == "Чондатанец")//+=-> парный этнос
         {
             if (gender == "Мужской")
             {
                 int couple_male_size = 10;
                 String [] Couple_Names_Male = {"Горстаг","Грим","Дарвин","Дорн","Маларк","Морн","Рэндал","Стедд",
                         "Хельм","Эвендур"};
-                int couple_male_choice = (rand.nextInt(couple_male_size) + 1);
-                System.out.println("Имя: " + Couple_Names_Male[couple_male_choice - 1]);
+                int couple_male_choice = rand.nextInt(couple_male_size);
+                System.out.println("Имя: " + Couple_Names_Male[couple_male_choice]);
             }
             else
             {
                 int couple_female_size = 9;
                 String [] Couple_Names_Female = {"Арвин","Джессаиль","Керри","Лурин","Мири","Рован","Тесселе","Шандри",
                         "Эсвель"};
-                int couple_female_choice = (rand.nextInt(couple_female_size) + 1);
-                System.out.println("Имя: " + Couple_Names_Female[couple_female_choice - 1]);
+                int couple_female_choice = rand.nextInt(couple_female_size);
+                System.out.println("Имя: " + Couple_Names_Female[couple_female_choice]);
             }
             int couple_surnames_size = 6;
             String [] Couple_Surnames = {"Бакмэн","Грэйкасл","Дандрэгон","Толстаг","Эвенвуд","Эмблкроун"};
-            int couple_choice = (rand.nextInt(couple_surnames_size) + 1);
-            System.out.println("Фамилия: " + Couple_Surnames[couple_choice - 1]);
+            int couple_choice = rand.nextInt(couple_surnames_size);
+            System.out.println("Фамилия: " + Couple_Surnames[couple_choice]);
         }
-        if (Ethnos[choice_ethnos - 1] == "Тёрами")//++++++++++=-> этнос Тёрами <-=++++++++++++++++++++++++++++++++++++++
+        if (Ethnos[choice_ethnos] == "Тёрами")//++++++++++=-> этнос Тёрами <-=++++++++++++++++++++++++++++++++++++++
         {
             if (gender == "Мужской")
             {
                 int terami_male_size = 8;
                 String [] Terami_Names_Male = {"Антон","Диеро","Маркон","Пьерон","Римардо","Ромеро","Салазар","Умберо"};
-                int terami_male_choice = (rand.nextInt(terami_male_size) + 1);
-                System.out.println("Имя: " + Terami_Names_Male[terami_male_choice - 1]);
+                int terami_male_choice = rand.nextInt(terami_male_size);
+                System.out.println("Имя: " + Terami_Names_Male[terami_male_choice]);
             }
             else
             {
                 int terami_female_size = 9;
                 String [] Terami_Names_Female = {"Балама","Вонда","Джалана","Дона","Куара","Луиза","Марта","Селизе",
                         "Фаила"};
-                int tearmi_female_choice = (rand.nextInt(terami_female_size) + 1);
-                System.out.println("Имя: " + Terami_Names_Female[tearmi_female_choice - 1]);
+                int tearmi_female_choice = rand.nextInt(terami_female_size);
+                System.out.println("Имя: " + Terami_Names_Female[tearmi_female_choice]);
             }
             int terami_surnames_size = 8;
             String [] Terami_Surnames = {"Агосто","Асторио","Домине","Калабра","Маривальди","Писакар","Рамондо",
                     "Фалоне"};
-            int terami_surnames_choice = (rand.nextInt(terami_surnames_size) + 1);
-            System.out.println("Фамилия: " + Terami_Surnames[terami_surnames_choice - 1]);
+            int terami_surnames_choice = rand.nextInt(terami_surnames_size);
+            System.out.println("Фамилия: " + Terami_Surnames[terami_surnames_choice]);
         }
-        if (Ethnos[choice_ethnos - 1] == "Шу")//++++++++++=-> этнос Шу <-=++++++++++++++++++++++++++++++++++++++++++++++
+        if (Ethnos[choice_ethnos] == "Шу")//++++++++++=-> этнос Шу <-=++++++++++++++++++++++++++++++++++++++++++++++
         {
             if (gender == "Мужской")
             {
                 int shu_male_size = 13;
                 String [] Shu_Names_Male = {"Ан","Вэнь","Лонг","Лянь","Менг","Он","Фай","Цзюн","Цзянь","Чен","Чи",
                         "Шань","Шуй"};
-                int shu_names_male_choice = (rand.nextInt(shu_male_size) + 1);
-                System.out.println("Имя: " + Shu_Names_Male[shu_names_male_choice - 1]);
+                int shu_names_male_choice = rand.nextInt(shu_male_size);
+                System.out.println("Имя: " + Shu_Names_Male[shu_names_male_choice]);
             }
             else
             {
                 int shu_female_size = 8;
                 String [] Shu_Names_Female = {"Бай","Ксяо","Лей","Мей","Тай","Цзя","Чао","Шуй"};
-                int shu_names_female_choice = (rand.nextInt(shu_female_size) + 1);
-                System.out.println("Имя: " + Shu_Names_Female[shu_names_female_choice - 1]);
+                int shu_names_female_choice = rand.nextInt(shu_female_size);
+                System.out.println("Имя: " + Shu_Names_Female[shu_names_female_choice]);
             }
             int shu_surnames_size = 12;
             String [] Shu_Surnames = {"Вань","Као","Кунг","Лао","Линг","Мей","Пинь","Сум","Тань","Хуан","Чиень","Шин"};
-            int shu_surnames_choice = (rand.nextInt(shu_surnames_size) + 1);
-            System.out.println("Фамилия: " + Shu_Surnames[shu_surnames_choice - 1]);
+            int shu_surnames_choice = rand.nextInt(shu_surnames_size);
+            System.out.println("Фамилия: " + Shu_Surnames[shu_surnames_choice]);
         }
     }
     static void Discription_Human ()
@@ -450,23 +487,23 @@ class Dragonborn //+++++++++++++++++++++++=-> раса Драконорожде�
             int dragonborn_male_size = 17;
             String [] Dragonborn_Names_Male = {"Арджхан","Баласар","Бхараш","Гхеш","Донаар","Крив","Медраш","Мехен",
                     "Надарр","Панджед","Патрин","Рхогар","Тархун","Торинн","Хескан","Шамаш","Шединн"};
-            int dragonborn_male_choice = (rand.nextInt(dragonborn_male_size) + 1);
-            System.out.println("\nИмя: " + Dragonborn_Names_Male[dragonborn_male_choice - 1]);
+            int dragonborn_male_choice = rand.nextInt(dragonborn_male_size);
+            System.out.println("\nИмя: " + Dragonborn_Names_Male[dragonborn_male_choice]);
         }
         else
         {
             int dragonborn_female_size = 17;
             String [] Dragonborn_Names_Female = {"Акра","Бири","Даар","Джхери","Кава","Коринн","Мисханн","Нала","Перра",
                     "Райанн","Сора","Сурина","Тхава","Уаджит","Фаридэ","Хавилар","Харанн"};
-            int dragonborn_female_choice = (rand.nextInt(dragonborn_female_size) + 1);
-            System.out.println("\nИмя: " + Dragonborn_Names_Female[dragonborn_female_choice - 1]);
+            int dragonborn_female_choice = rand.nextInt(dragonborn_female_size);
+            System.out.println("\nИмя: " + Dragonborn_Names_Female[dragonborn_female_choice]);
         }
         int dragonborn_clans_size = 18;
         String [] Dragonborn_Clans = {"Версисатургиеш","Даардендриан","Делмирев","Драчедандион","Кепешкмолик",
                 "Керрилон","Кимбатуул","Клестинсиаллор","Линксакасендалор","Мястан","Неммонис","Нориксиус",
                 "Офиншталажир","Прексижандилин","Турнурот","Фенкенкаьрадон","Шестенделиат","Яржерит"};
-        int dragonborn_clans_choice = (rand.nextInt(dragonborn_clans_size) + 1);
-        System.out.println("Клан: " + Dragonborn_Clans[dragonborn_clans_choice - 1]);
+        int dragonborn_clans_choice = rand.nextInt(dragonborn_clans_size);
+        System.out.println("Клан: " + Dragonborn_Clans[dragonborn_clans_choice]);
     }
     static void Discription_Dragonborn ()
     {
@@ -516,8 +553,8 @@ class Gnome //++++++++++++++++++++++++++++=-> раса Гном <-=+++++++++++++
             String [] Gnome_Names_Male = {"Алвин","Алстон","Боддинок","Брок","Бюргел","Варрин","Вренн","Гербо","Гимбл",
                     "Глим","Джебеддо","Димбл","Зук","Келлен","Намфудл","Оррин","Рундар","Сибо","Синдри","Фонкин","Фрюг",
                     "Элдон","Эрки"};
-            int gnome_male_choice = (rand.nextInt(gnome_male_size) + 1);
-            System.out.println("\nИмя: " + Gnome_Names_Male[gnome_male_choice - 1]);
+            int gnome_male_choice = rand.nextInt(gnome_male_size);
+            System.out.println("\nИмя: " + Gnome_Names_Male[gnome_male_choice]);
         }
         else
         {
@@ -525,19 +562,19 @@ class Gnome //++++++++++++++++++++++++++++=-> раса Гном <-=+++++++++++++
             String [] Gnome_Names_Female = {"Бимпноттин","Брина","Вейуокет","Донелла","Дувамил","Занна","Карамип",
                     "Карлин","Лилли","Лорилла","Лупмоттин","Маднаб","Никс","Нисса","Ода","Орла","Ройвин","Тана","Шамил",
                     "Эливик","Элиджобелл","Элла"};
-            int gnome_female_choice = (rand.nextInt(gnome_female_size) + 1);
-            System.out.println("\nИмя: " + Gnome_Names_Female[gnome_female_choice - 1]);
+            int gnome_female_choice = rand.nextInt(gnome_female_size);
+            System.out.println("\nИмя: " + Gnome_Names_Female[gnome_female_choice]);
         }
         int gnome_clans_size = 11;
         String [] Gnome_Clans = {"Берен","Гаррик","Даергел","Мёрнинг","Накл","Нингел","Раулнор","Тимберс","Турен",
                 "Фолькор","Шеппен"};
-        int gnome_clans_choice = (rand.nextInt(gnome_clans_size) + 1);
-        System.out.println("Клан: " + Gnome_Clans[gnome_clans_choice - 1]);
+        int gnome_clans_choice = rand.nextInt(gnome_clans_size);
+        System.out.println("Клан: " + Gnome_Clans[gnome_clans_choice]);
         int gnome_nicknames_size = 13;
         String [] Gnome_Nicknames = {"Барсук","Босоног","Двазамок","Колотушка","Ку","Ним","Пеплосерд","Пивохлёб","Плащ",
                 "Пок","Самоцвет","Стамлдак","Фниппер"};
-        int gnome_nicknames_choice = (rand.nextInt(gnome_nicknames_size) + 1);
-        System.out.println("Прозвище: " + Gnome_Nicknames[gnome_nicknames_choice - 1]);
+        int gnome_nicknames_choice = rand.nextInt(gnome_nicknames_size);
+        System.out.println("Прозвище: " + Gnome_Nicknames[gnome_nicknames_choice]);
     }
     static void Discription_Gnome ()
     {
@@ -629,16 +666,16 @@ class HalfOrk //++++++++++++++++++++++++++=-> раса Полуорк <-=+++++++
             int half_ork_male_size = 12;
             String [] HalfOrk_Names_Male = {"Гел","Денч","Имш","Кет","Краск","Муррен","Ронт","Токк","Фенг","Хенк",
                     "Холг","Шамп"};
-            int half_ork_male_choice = (rand.nextInt(half_ork_male_size) + 1);
-            System.out.println("\nИмя: " + HalfOrk_Names_Male[half_ork_male_choice - 1]);
+            int half_ork_male_choice = rand.nextInt(half_ork_male_size);
+            System.out.println("\nИмя: " + HalfOrk_Names_Male[half_ork_male_choice]);
         }
         else
         {
             int half_ork_female_size = 13;
             String [] HalfOrk_Names_Female = {"Багги","Вола","Волен","Евельда","Кансиф","Мев","Нига","Овак","Оунка",
                     "Сута","Шаута","Эмен","Энгонг"};
-            int half_ork_female_choice = (rand.nextInt(half_ork_female_size) + 1);
-            System.out.println("\nИмя: " + HalfOrk_Names_Female[half_ork_female_choice - 1]);
+            int half_ork_female_choice = rand.nextInt(half_ork_female_size);
+            System.out.println("\nИмя: " + HalfOrk_Names_Female[half_ork_female_choice]);
         }
     }
     static void Discription_HalfOrk()
@@ -689,23 +726,23 @@ class Tifling //++++++++++++++++++++++++++=-> раса Тифлинг <-=+++++++
             int tifling_male_size = 14;
             String [] Tifling_Names_Male = {"Акменос","Амнон","Баракас","Дамакос","Йадос","Кайрос","Люцис","Мелех",
                     "Мордай","Мортос","Пелайос","Скамос","Терай","Экемон"};
-            int tifling_male_choice = (rand.nextInt(tifling_male_size) + 1);
-            System.out.println("\nИнфернальное имя: " + Tifling_Names_Male[tifling_male_choice - 1]);
+            int tifling_male_choice = rand.nextInt(tifling_male_size);
+            System.out.println("\nИнфернальное имя: " + Tifling_Names_Male[tifling_male_choice]);
         }
         else
         {
             int tifling_female_size = 13;
             String [] Tifling_Names_Female = {"Акта","Анакис","Брисеис","Дамая","Каллиста","Криелла","Лерисса",
                     "Макария","Немея","Орианна","Риета","Фелая","Эа"};
-            int tifling_female_choice = (rand.nextInt(tifling_female_size) + 1);
-            System.out.println("\nИнфернальное имя: " + Tifling_Names_Female[tifling_female_choice - 1]);
+            int tifling_female_choice = rand.nextInt(tifling_female_size);
+            System.out.println("\nИнфернальное имя: " + Tifling_Names_Female[tifling_female_choice]);
         }
         int necrotic_names_size = 21;
         String [] Necrotic_Names = {"Безрассудство","Вера","Идеал","Искусство","Музыка","Мука","Надежда","Напев",
                 "Нигде","Открытость","Отчаяние","Падаль","Поиск","Почтение","Поэзия","Превосходство","Скорбь","Слава",
                 "Случайность","Страх","Усталость"};
-        int necrotic_names_choice = (rand.nextInt(necrotic_names_size) + 1);
-        System.out.println("'Идейное' имя: " + Necrotic_Names[necrotic_names_choice - 1]);
+        int necrotic_names_choice = rand.nextInt(necrotic_names_size);
+        System.out.println("'Идейное' имя: " + Necrotic_Names[necrotic_names_choice]);
     }
     static void Discription_Tifling()
     {
@@ -760,7 +797,7 @@ class Barbarian //++++++++++++++++++++++++=-> класс Варвар <-=+++++++
             "ицом опасности делает варвара превосходным кандидатом в искатели приключений. Кочевой образ жизни часто " +
             "привычен для примитивных племён, и непоседливая жизнь авантюристов не составляет трудности для варвара. " +
             "Некоторые варвары скучают по сплочённому семейному укладу своих племён, но в конце концов находят замену" +
-            " в узах, связывающих членов отряда.";
+            " в узах, связывающих членов отряда.\n";
         char [] discr = text_barbarian.toCharArray();
         for (int i = 0; i < discr.length; i++)
         {
@@ -770,7 +807,38 @@ class Barbarian //++++++++++++++++++++++++=-> класс Варвар <-=+++++++
                 System.out.print (discr[i]);
         }
     }
-    int hit_dice_barbarian = 12;
+    static void Barbarian_Ability ()
+    {
+        System.out.println ("\nВладение:\nДоспехи: Лёгкие доспехи, средние доспехи, щиты.\nОружие: Простое оружие, " +
+                "воинское оружие.\nИнструменты: Нет.\nСпасброски: Сила, Телосложение.");
+        Random rand = new Random();
+        int barbarian_skill_1 = rand.nextInt(6),
+            barbarian_skill_2 = rand.nextInt(6),
+            barbarian_flag = 1;
+        while (barbarian_flag == 1)
+        {
+            if (barbarian_skill_2 == barbarian_skill_1)
+            {
+                barbarian_skill_2 = rand.nextInt(6);
+                barbarian_flag = 1;
+            }
+            else
+                barbarian_flag = 0;
+        }
+        String [] barbarian_skills = {"Атлетика","Внимательность","Выживание","Запугивание","Природа",
+                "Уход за животными"};
+        System.out.println("\nНавыки: " + barbarian_skills[barbarian_skill_1] + ", " +
+                barbarian_skills[barbarian_skill_2] + ".");
+        Create_Unit unit_barbarian = new Create_Unit();
+        int barbarian_primary_weapon_choice = rand.nextInt(2),
+            barbarian_secondary_weapon_choice = rand.nextInt(2);
+        String [] barbarian_primary_weapon = {"Секира.", unit_barbarian.Military_Weapons()},
+                  barbarian_secondary_weapon = {"Два ручных топора.", unit_barbarian.Simple_Weapons("full")};
+        System.out.println("\nСнаряжение:\n1) " + barbarian_primary_weapon[barbarian_primary_weapon_choice] +
+                "\n2) " + barbarian_secondary_weapon[barbarian_secondary_weapon_choice] + "\n3) Набор путешественника" +
+                " и четыре метательных копья.");
+        int hit_dice_barbarian = 12;
+    }
 }
 class Bard //+++++++++++++++++++++++++++++=-> класс Бард <-=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 {
@@ -802,7 +870,7 @@ class Bard //+++++++++++++++++++++++++++++=-> класс Бард <-=+++++++++++
             "ы любят сопровождать героев, чтобы засвидетельствовать их свершения из первых рук. Бард, который может р" +
             "ассказать впечатляющую историю из личного опыта, зарабаывает известность среди других бардов. Более того" +
             ", после повествования такого большого количества историй о великих свершениях героев, многие барды прини" +
-            "мают их близко к сердцу и хотят принять роль героя сами.";
+            "мают их близко к сердцу и хотят принять роль героя сами.\n";
         char [] discr = text_bard.toCharArray();
         for (int i = 0; i < discr.length; i ++)
         {
@@ -811,6 +879,47 @@ class Bard //+++++++++++++++++++++++++++++=-> класс Бард <-=+++++++++++
             else
                 System.out.print(discr[i]);
         }
+    }
+    static void Bard_Ability()
+    {
+        System.out.println("\nВладение: \nДоспехи: Лёгкие доспехи.\nОружие: Простое оружие, длинные мечи, короткие " +
+                "мечи, рапиры, ручные арбалеты.\nИнструменты: Три музыкальных инструмента на ваш выбор.\nСпасброски: " +
+                "Ловкость, Харизма.");
+        Random rand = new Random();
+        int bard_skill_1 = rand.nextInt(16),
+            bard_skill_2 = rand.nextInt(16),
+            bard_skill_3 = rand.nextInt(16),
+            bard_flag = 1;
+        while (bard_flag == 1)
+        {
+            if ((bard_skill_1 == bard_skill_2) || (bard_skill_1 == bard_skill_3))
+            {
+                bard_skill_1 = rand.nextInt(16);
+                bard_flag = 1;
+            }
+            else if (bard_skill_2 == bard_skill_3)
+            {
+                bard_skill_2 = rand.nextInt(16);
+                bard_flag = 1;
+            }
+            else
+                bard_flag = 0;
+        }
+        String [] bard_skills = {"Атлетика","Выносливость","Акробатика","Воровство","Скрытность","История","Религия",
+                "Магия","Внимательность","Проницательность","Целительство","Подземелья","Природа","Запугивание",
+                "Знание улиц","Обман","Переговоры"};
+        System.out.println("\nНавыки: " + bard_skills[bard_skill_1] + ", " + bard_skills[bard_skill_2] + ", " +
+                bard_skills[bard_skill_3] + ".");
+        int bard_item_1_choice = rand.nextInt(2),
+            bard_item_2_choice = rand.nextInt(2),
+            bard_item_3_choice = rand.nextInt(3);
+        Create_Unit unit_bard = new Create_Unit();
+        String [] bard_item_1 = {"Набор дипломата.","Набор артиста."},
+                  bard_item_2 = {"Лютня.","Любой музыкальный иструмент на выбор."},
+                  bard_item_3 = {"Рапира.", "Длинный меч.", unit_bard.Simple_Weapons("full")};
+        System.out.println("\nСнаряжение:\n1) " + bard_item_1[bard_item_1_choice] + "\n2) " +
+                bard_item_2[bard_item_2_choice] + "\n3) " + bard_item_3[bard_item_3_choice] +
+                "\n4) Кожанный доспех и кинжал.");
     }
     int hit_dice_bard = 8;
 }
@@ -838,7 +947,7 @@ class Priest //+++++++++++++++++++++++++++=-> класс Жрец <-=+++++++++++
             "ать сражение с неистовыми орками, ведение переговоров о мире между воюющими государствами, или закрытие " +
             "портала, через который в мир может пройти князь демонов. Большинство странствующих жрецов поддерживает н" +
             "екоторую связь с храмами и орденаами, разделяющими их веру. Храм может попросить помощи у жреца, а высши" +
-            "й священник вправе просто потребовать её.";
+            "й священник вправе просто потребовать её.\n";
         char [] discr = text_priest.toCharArray();
         for (int i = 0; i < discr.length; i++)
         {
@@ -847,6 +956,35 @@ class Priest //+++++++++++++++++++++++++++=-> класс Жрец <-=+++++++++++
             else
                 System.out.print(discr[i]);
         }
+    }
+    static void Priest_Ability()
+    {
+        System.out.println("\nВладение: \nДоспехи: Лёгкие доспехи, средние доспехи, щиты.\nОружие: Простое оружие.\n" +
+                "Инструменты: Нет.\nСпасброски: Мудрость, Харизма.");
+        Random rand = new Random();
+        int priest_skill_1 = rand.nextInt(5),
+            priest_skill_2 = rand.nextInt(5),
+            priest_flag = 1;
+        while (priest_flag == 1)
+        {
+            if (priest_skill_1 == priest_skill_2)
+            {
+                priest_skill_1 = rand.nextInt(5);
+                priest_flag = 1;
+            }
+            else
+                priest_flag = 0;
+        }
+        String [] priest_skills = {"История", "Медицина", "Проницательность", "Религия", "Убеждение"};
+        System.out.println("\nНавыки: " + priest_skills[priest_skill_1] + ", " + priest_skills[priest_skill_2] + ".");
+        int priest_item_1_choice = rand.nextInt(2),
+            priest_item_2_choice = rand.nextInt(3),
+            priest_item_3_choice = rand.nextInt(2);
+        String [] priest_item_1 = {"Булава.", "Боевой молот (если владеете)."},
+                  priest_item_2 = {"Чешуйчатый доспех.","Кожаный доспех.","Кольчуга (если владеете)."},
+                  priest_item_3 = {"Набор священика.", "Набор путешественника."};
+        System.out.println("\nСнаряжение: " + "\n1) " + priest_item_1[priest_item_1_choice] + "\n2) " +
+                priest_item_2[priest_item_2_choice] + "\n3) " + priest_item_3[priest_item_3_choice]);
     }
     int hit_dice_priest = 8;
 }
@@ -871,7 +1009,7 @@ class Druid //++++++++++++++++++++++++++++=-> класс Друид <-=+++++++++
             "аберрации (иллиды и бехолдеры) и нежить (зомби и вампиры). Иногдадруиды совершают вылазки на таких сущес" +
             "тв, особенно если те приближаются к их территориям. Священная земля и области нетронутой природы нередко" +
             " охраняются друидом. Впрочем, при достаточной угрозе естественному равновесию или подзащитной земле друи" +
-            "д может перейти к активной борьбе с напастью, ступив на путь искателя приключений.";
+            "д может перейти к активной борьбе с напастью, ступив на путь искателя приключений.\n";
         char [] discr = text_druid.toCharArray();
         for (int i = 0; i < discr.length; i ++)
         {
@@ -880,6 +1018,37 @@ class Druid //++++++++++++++++++++++++++++=-> класс Друид <-=+++++++++
             else
                 System.out.print(discr[i]);
         }
+    }
+    static void Druid_Ability()
+    {
+        Random rand = new Random();
+        System.out.println("\nВладение: \nДоспехи: Лёгкие доспехи, средние доспехи, щиты (друиды не носят доспехи и " +
+                "щиты из металла).\nОружие: Боевые посохи, булавы, дрротики, дубинки, кинжалы, копья, метательные" +
+                " копья, пращи, серпы, скимитары. \nИнструменты: Набор травника.\nСпасброски: Интеллект, Мудрость.");
+        int druid_skill_1 = rand.nextInt(8),
+            druid_skill_2 = rand.nextInt(8),
+            druid_flag = 1;
+        while (druid_flag == 1)
+        {
+            if (druid_skill_1 == druid_skill_2)
+            {
+                druid_skill_1 = rand.nextInt(8);
+                druid_flag = 1;
+            }
+            else
+                druid_flag = 0;
+        }
+        String [] druid_skills = {"Внимательность","Выживание","Магия","Медицина","Обращение с животными","Природа",
+                "Проницательность","Религия"};
+        System.out.println("\nНавыки: " + druid_skills[druid_skill_1] + ", " + druid_skills[druid_skill_2] + ".");
+        Create_Unit unit_druid = new Create_Unit();
+        int druid_item_1_choice = rand.nextInt(2),
+            druid_item_2_choice = rand.nextInt(2);
+        String [] druid_item_1 = {"Деревянный щит.", unit_druid.Simple_Weapons("full")},
+                  druid_item_2 = {"Скимитар.", unit_druid.Simple_Weapons("melee")};
+        System.out.println("\nСнаряжение: \n1) " + druid_item_1[druid_item_1_choice] + "\n2) "
+                + druid_item_2[druid_item_2_choice] + "\n3) Кожаный доспех, набор путешественника и фокусировка " +
+                "друидов.");
     }
     int hit_dice_druid = 8;
 }
@@ -900,7 +1069,7 @@ class Warrior //++++++++++++++++++++++++++=-> класс Воин <-=+++++++++++
             "честве, искателей приключений. Исследование подземелий, убийство чудовищ и другая опасная работа, обыден" +
             "ная для искателей приключений, является второй натурой воина, и не так сильно отличчается от жизни, оста" +
             "вленной в прошлом. Риск здесь, возможно, и выше, но и награда значительно больше - например, воины в гор" +
-            "одском дозоре вряд ли смогут найти меч - Язык Пламени.";
+            "одском дозоре вряд ли смогут найти меч - Язык Пламени.\n";
         char [] discr = text_warrior.toCharArray();
         for (int i = 0; i < discr.length; i ++)
         {
@@ -909,6 +1078,42 @@ class Warrior //++++++++++++++++++++++++++=-> класс Воин <-=+++++++++++
             else
                 System.out.print(discr[i]);
         }
+    }
+    static void Warrior_Ability()
+    {
+        Random rand = new Random();
+        System.out.println("\nВладение: \nДоспехи: Все доспехи, щиты.\nОружие: Простое оружие, воинское оружие.\n" +
+                "Интсрументы: Нет.\nСпасброски: Сила, Телосложение.");
+        int warrior_skill_1 = rand.nextInt(8),
+            warrior_skill_2 = rand.nextInt(8),
+            warrior_flag = 1;
+        while (warrior_flag == 1)
+        {
+            if (warrior_skill_1 == warrior_skill_2)
+            {
+                warrior_skill_1 = rand.nextInt(8);
+                warrior_flag = 1;
+            }
+            else
+                warrior_flag = 0;
+        }
+        String [] warrior_skills = {"Акробатика","Атлетика","Внимательность","Выживание","Запугивание","История",
+                "Проницательность","Уход за животными"};
+        System.out.println("\nНавыки: " + warrior_skills[warrior_skill_1] + ", " + warrior_skills[warrior_skill_2] +
+                ".");
+        Create_Unit unit_warrior = new Create_Unit();
+        int warrior_item_1_choice = rand.nextInt(2),
+            warrior_item_2_choice = rand.nextInt(2),
+            warrior_item_3_choice = rand.nextInt(2),
+            warrior_item_4_choice = rand.nextInt(2);
+        String [] warrior_item_1 = {"Кольчуга.","Кожаный доспех, длинный лук и 20 стрел."},
+                  warrior_item_2 = {unit_warrior.Military_Weapons() + "\n   Щит.",unit_warrior.Military_Weapons() +
+                                    "\n   " + unit_warrior.Military_Weapons()},
+                  warrior_item_3 = {"Лёгкий арбалет и 20 болтов.","2 ручных топора."},
+                  warrior_item_4 = {"Набор исследователя подземелий","Набор путешественника."};
+        System.out.println("\nСнаряжение: \n1) " + warrior_item_1[warrior_item_1_choice] + "\n2) " +
+                warrior_item_2[warrior_item_2_choice] + "\n3) " + warrior_item_3[warrior_item_3_choice] + "\n4) " +
+                warrior_item_4[warrior_item_4_choice]);
     }
     int hit_dice_warrior = 10;
 }
@@ -935,7 +1140,7 @@ class Monk //+++++++++++++++++++++++++++++=-> класс Монах <-=+++++++++
             "и в коммуне. Это может быть трудным шагом, и монахи принимают такое решение нелегко. Те же, кто покинул " +
             "свой монастырь, относятся к этому шагу очень серьёзно, воспринимая свои странствия как испытание своего " +
             "физического и духовного развития. Как правило, монахи мало заботятся о материальных богатствах, и ими дв" +
-            "ижет желание достичь большего, чем просто убить чудовище и завладеть его сокровищами.";
+            "ижет желание достичь большего, чем просто убить чудовище и завладеть его сокровищами.\n";
         char [] discr = text_monk.toCharArray();
         for (int i = 0; i < discr.length; i ++)
         {
@@ -944,6 +1149,35 @@ class Monk //+++++++++++++++++++++++++++++=-> класс Монах <-=+++++++++
             else
                 System.out.print(discr[i]);
         }
+    }
+    static void Monk_Ability()
+    {
+        Random rand = new Random();
+        System.out.println("\nВладение: \nДоспехи: Нет.\nОружие: Простое оружие, короткие мечи.\nИнструменты: " +
+                "Выберите один вид инструмента ремесленников либо музыкального инструмента.\nСпасброски: Сила, " +
+                "Ловкость.");
+        int monk_skill_1 = rand.nextInt(6),
+            monk_skill_2 = rand.nextInt(6),
+            monk_flag = 1;
+        while (monk_flag == 1)
+        {
+            if (monk_skill_1 == monk_skill_2)
+            {
+                monk_skill_1 = rand.nextInt(6);
+                monk_flag = 1;
+            }
+            else
+                monk_flag = 0;
+        }
+        String [] monk_skills = {"Акробатика","Атлетика","История","Проницательность","Религия","Скрытность"};
+        System.out.println("\nНавыки: " + monk_skills[monk_skill_1] + ", " + monk_skills[monk_skill_2] + ".");
+        Create_Unit unit_monk = new Create_Unit();
+        int monk_item_1_choice = rand.nextInt(2),
+            monk_item_2_choice = rand.nextInt(2);
+        String [] monk_item_1 = {"короткий меч", unit_monk.Simple_Weapons("full")},
+                  monk_item_2 = {"Набор исследователя подземелий","Набор путешественника"};
+        System.out.println("\nСнаряжение: \n1) " + monk_item_1[monk_item_1_choice] + "\n2) " +
+                monk_item_2[monk_item_2_choice] + "\n3) 10 дротиков.");
     }
     int hit_dice_monk = 8;
 }
@@ -967,7 +1201,7 @@ class Paladin //++++++++++++++++++++++++++=-> класс Паладин <-=+++++
             "вую очередь отдана делу праведности, а не короне или стране. Ставшие искателями приключений паладины отн" +
             "осятся к своему делу серьёзно. Поход в древние руины или пыльный склеп может быть обусловлен поиском бол" +
             "ее высокой цели, чем поход за сокровищами. Зло таится в подземельях и дремучих лесах, и ддаже самые скро" +
-            "мные победы над ним могут удержать мировое равновесие от небытия.";
+            "мные победы над ним могут удержать мировое равновесие от небытия.\n";
         char [] discr = text_paladin.toCharArray();
         for (int i = 0; i < discr.length; i ++)
         {
@@ -977,13 +1211,46 @@ class Paladin //++++++++++++++++++++++++++=-> класс Паладин <-=+++++
                 System.out.print(discr[i]);
         }
     }
+    static void Paladin_Ability()
+    {
+        Random rand = new Random();
+        System.out.println("\nВладение: \nДоспехи: Все виды доспехов, щиты.\nОружие: Простое оружие, воинское оружие." +
+                "\nИнструменты: Нет.\nСпасброски: Мудрость, Харизма.");
+        int paladin_skill_1 = rand.nextInt(6),
+            paladin_skill_2 = rand.nextInt(6),
+            paladin_flag = 1;
+        while (paladin_flag == 1)
+        {
+            if (paladin_skill_1 == paladin_skill_2)
+            {
+                paladin_skill_1 = rand.nextInt(6);
+                paladin_flag = 1;
+            }
+            else
+                paladin_flag = 0;
+        }
+        String [] paladin_skills = {"Атлетика","Запугивание","Медицина","Проницательность","Религия","Убеждение"};
+        System.out.println("\nНавыки: " + paladin_skills[paladin_skill_1] + ", " + paladin_skills[paladin_skill_2]
+         + ".");
+        int paladin_item_1_choice = rand.nextInt(2),
+            paladin_item_2_choice = rand.nextInt(2),
+            paladin_item_3_choice = rand.nextInt(2);
+        Create_Unit unit_paladin = new Create_Unit();
+        String [] paladin_item_1 = {unit_paladin.Military_Weapons() + "\n   Щит", unit_paladin.Military_Weapons() +
+                                    "\n   " + unit_paladin.Military_Weapons()},
+                  paladin_item_2 = {"Пять метательных копий.", unit_paladin.Simple_Weapons("melee")},
+                  paladin_item_3 = {"Набор священика.","Набор путешественника."};
+        System.out.println("\nСнаряжение: \n1) " + paladin_item_1[paladin_item_1_choice] + "\n2) " +
+                paladin_item_2[paladin_item_2_choice] + "\n3) " + paladin_item_3[paladin_item_3_choice] +
+                "\n4) Кольчуга и священный символ.");
+    }
     int hit_dice_paladin = 10;
 }
 class Ranger //+++++++++++++++++++++++++++=-> класс Следопыт <-=++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 {
     static void class_Ranger()
     {
-        String text_ranger = "Описание: Бойцы дкикх земель, следопыты, специализируются на охоте на монстров, таких к" +
+        String text_ranger = "Описание: Бойцы диких земель, следопыты, специализируются на охоте на монстров, таких к" +
             "ак неистовствующие звери, чудовищные создания, ужасающие великаны и смертоносные драконы, угрожающих нап" +
             "адением на цивилизованные земли гуманоидов. Они умеют выслеживать добычу подобно хищнику, скрытно передв" +
             "игаясь через дебри, прячась среди кустов и камней. Тренируясь сражаться, следопыты делают упор боевой по" +
@@ -1000,13 +1267,53 @@ class Ranger //+++++++++++++++++++++++++++=-> класс Следопыт <-=+++
             " в дикой природе, следопыты реагируют на это помесью веселья, разочарования и сочувствия. Но они понимаю" +
             "т, что другие искатели приключений, привносящую свою лепту в дело борьбы с врагами цивилизации, стоят до" +
             "полнительных усилий. Изнеженные горожане могут не знать,  как прокормить себя или найти преснуую воду в " +
-            "дикой природе, но они компенсируют это незнание своими навыками.";
+            "дикой природе, но они компенсируют это незнание своими навыками.\n";
         char [] discr = text_ranger.toCharArray();
         for (int i = 0; i < discr.length; i ++)
             if ((i > 1) && (i % 160 == 0))
                 System.out.print(discr[i] + "\n");
             else
                 System.out.print(discr[i]);
+    }
+    static void Ranger_Ability()
+    {
+        Random rand = new Random();
+        System.out.println("\nВладение:\nДоспехи: Лёгкие доспехи, средние доспехи, щиты.\nОружие: Простое оружие, " +
+                "воинское оружие.\nИнструменты: Нет.\nСпасброски: Сила, Ловкость.");
+        int ranger_skill_1 = rand.nextInt(8),
+            ranger_skill_2 = rand.nextInt(8),
+            ranger_skill_3 = rand.nextInt(8),
+            ranger_flag = 1;
+        while(ranger_flag == 1)
+        {
+            if ((ranger_skill_1 == ranger_skill_2) || (ranger_skill_1 == ranger_skill_3))
+            {
+                ranger_skill_1 = rand.nextInt(8);
+                ranger_flag = 1;
+            }
+            else if (ranger_skill_2 == ranger_skill_3)
+            {
+                ranger_skill_2 = rand.nextInt(8);
+                ranger_flag = 1;
+            }
+            else
+                ranger_flag = 0;
+        }
+        String [] ranger_skills = {"Анализ","Атлетика","Внимательность","Выживание","Природа","Проницательность",
+                "Скрытность","Уход за животными"};
+        System.out.println("\nНавыки: " + ranger_skills[ranger_skill_1] + ", " + ranger_skills[ranger_skill_2] + ", "
+        + ranger_skills[ranger_skill_3] + ".");
+        int ranger_item_1_choice = rand.nextInt(2),
+            ranger_item_2_choice = rand.nextInt(2),
+            ranger_item_choice_3 = rand.nextInt(2);
+        Create_Unit unit_ranger = new Create_Unit();
+        String [] ranger_item_1 = {"Чешуйчатый доспех.","Кожаный доспех."},
+                  ranger_item_2 = {"Два коротких меча.", unit_ranger.Simple_Weapons("melee") + "\n   " +
+                                   unit_ranger.Simple_Weapons("melee")},
+                  ranger_item_3 = {"Набор исследователя подземелий.","Набор путешественника."};
+        System.out.println("\nСнаряжение: \n1) " + ranger_item_1[ranger_item_1_choice] + "\n2) " +
+                ranger_item_2[ranger_item_2_choice] + "\n3) " + ranger_item_3[ranger_item_choice_3] +
+                "\n4) Длинный лук и колчан с 20 стрелами.");
     }
     int hit_dice_ranger = 10;
 }
@@ -1029,13 +1336,58 @@ class Rogue //++++++++++++++++++++++++++++=-> класс Плут <-=+++++++++++
             "итающих в канализации лютых крыс и веркрыс. Плуты искатели приключений встречаются по обе стороны закона" +
             ". Часть из них - закоренелые престуупники, которые решили искать удачу и клады, а другая часть живёт жиз" +
             "нью искателей приключений, чтобы уйти от закона. Некоторые обрели и усовершенствовали свои навыки с цель" +
-            "ю проникновения в древние руины и скрытые склепы в поисках сокровищ.";
+            "ю проникновения в древние руины и скрытые склепы в поисках сокровищ.\n";
         char [] discr = text_rogue.toCharArray();
         for (int i = 0; i < discr.length; i ++)
             if ((i > 1) && (i % 160 == 0))
                 System.out.print(discr[i] + "\n");
             else
                 System.out.print(discr[i]);
+    }
+    static void Rogue_Ability()
+    {
+        Random rand = new Random();
+        System.out.println("\nВладение: \nДоспехи: Лёгкие доспехи.\nОружие: Простое оружие, ручные арбалеты, длинные " +
+                "мечи, рапиры, короткие мечи.\nИнструменты: Воровские инструменты.\nСпасброски: Ловкость, Интеллект.");
+        int rogue_skill_1 = rand.nextInt(11),
+            rogue_skill_2 = rand.nextInt(11),
+            rogue_skill_3 = rand.nextInt(11),
+            rogue_skill_4 = rand.nextInt(11),
+            rogue_flag = 1;
+        while (rogue_flag == 1)
+        {
+            if ((rogue_skill_1 == rogue_skill_2) || (rogue_skill_1 == rogue_skill_3) ||
+                    (rogue_skill_1 == rogue_skill_4))
+            {
+                rogue_skill_1 = rand.nextInt(11);
+                rogue_flag = 1;
+            }
+            else if ((rogue_skill_2 == rogue_skill_3) || (rogue_skill_2 == rogue_skill_4))
+            {
+                rogue_skill_2 = rand.nextInt(11);
+                rogue_flag = 1;
+            }
+            else if (rogue_skill_3 == rogue_skill_4)
+            {
+                rogue_skill_3 = rand.nextInt(11);
+                rogue_flag = 1;
+            }
+            else
+                rogue_flag = 0;
+        }
+        String [] rogue_skills = {"Акробатика","Анализ","Атлетика","Внимательность","Выступление","Запугивание",
+                "Ловкость рук","Обман","Проницательность","Скрытность","Убеждение"};
+        System.out.println("\nНавыки: " + rogue_skills[rogue_skill_1] + ", " + rogue_skills[rogue_skill_2] +
+                ", " + rogue_skills[rogue_skill_3] + ", " + rogue_skills[rogue_skill_4] + ".");
+        int rogue_item_1_choice = rand.nextInt(2),
+            rogue_item_2_choice = rand.nextInt(2),
+            rogue_item_3_choice = rand.nextInt(3);
+        String [] rogue_item_1 = {"Рапира.","Короткий меч."},
+                  rogue_item_2 = {"Короткий лук и колчан с 20 стрелами", "Короткий меч."},
+                  rogue_item_3 = {"Набор взломщика.","Набор исследователя подземелий.","Набор путешественника."};
+        System.out.println("\nСнаряжение: \n1) " + rogue_item_1[rogue_item_1_choice] + "\n2) " +
+                rogue_item_2[rogue_item_2_choice] + "\n3) " + rogue_item_3[rogue_item_3_choice] +
+                "\n4) Кожаная броня, два кинжала, воровские инструменты.");
     }
     int hit_dice_rogue = 8;
 }
@@ -1064,13 +1416,46 @@ class Sorcerer //+++++++++++++++++++++++++=-> класс Чародей <-=+++++
             "ческих сил, влияющих на них, или разгадок их таинственного происхождения. Другие же надеются найти спосо" +
             "об избавления от своего дара, или раскрытия его полного потенциала. Вне зависимости от их целей, чародеи" +
             " столь же полезны в отряде искателей приключений, как и волшебники. Хотя чародеи и не владеют множеством" +
-            " заклинаний, это с лихвой компенсируется большой гибкостью в использовании тех заклятий, что им известны.";
+            " заклинаний, это с лихвой компенсируется большой гибкостью в использовании тех заклятий, что им известны" +
+                ".\n";
         char [] discr = text_sorcerer.toCharArray();
         for (int i = 0; i < discr.length; i ++)
             if ((i > 1) && (i % 160 == 0))
                 System.out.print(discr[i] + "\n");
             else
                 System.out.print(discr[i]);
+    }
+    static void Sorcerer_Ability()
+    {
+        Random rand = new Random();
+        System.out.println("\nВладение:\nДоспехи: Нет.\nОружие: Боевые посохи, дротики, кинжалы, лёгкие арбалеты, " +
+                "пращи.\nИнтсрументы: Нет.\nСпасброски: Телосложение, Харизма.");
+        int sorcerer_skill_1 = rand.nextInt(6),
+            sorcerer_skill_2 = rand.nextInt(6),
+            sorcerer_flag = 1;
+        while (sorcerer_flag == 1)
+        {
+            if (sorcerer_skill_1 == sorcerer_skill_2)
+            {
+                sorcerer_skill_1 = rand.nextInt(6);
+                sorcerer_flag = 1;
+            }
+            else
+                sorcerer_flag = 0;
+        }
+        String [] sorcerer_skills = {"Запугивание","Магия","Обман","Проницательность","Религия","Убеждение"};
+        System.out.println("\nНавыки: " + sorcerer_skills[sorcerer_skill_1] + ", " + sorcerer_skills[sorcerer_skill_2]
+         + ".");
+        Create_Unit unit_sorcerer = new Create_Unit();
+        int sorcerer_item_1_choice = rand.nextInt(2),
+            sorcerer_item_2_choice = rand.nextInt(2),
+            sorcerer_item_3_choice = rand.nextInt(2);
+        String [] sorcerer_item_1 = {"Лёгкий арбалет и 20 болтов", unit_sorcerer.Simple_Weapons("full")},
+                  sorcerer_item_2 = {"Мешочек с компонентами.","Магическая фокусировка."},
+                  sorcerer_item_3 = {"Набор исследователя подземелий.","Набор путешественника."};
+        System.out.println("\nСнаряжение:\n1) " + sorcerer_item_1[sorcerer_item_1_choice] + "\n2) " +
+                sorcerer_item_2[sorcerer_item_2_choice] + "\n3) " + sorcerer_item_3[sorcerer_item_3_choice] +
+                "\n4) Два кинжала.");
     }
     int hit_dice_sorcerer = 6;
 }
@@ -1097,13 +1482,46 @@ class Warlock //++++++++++++++++++++++++++=-> класс Колдун <-=+++++++
             "дованиями. Никто не заключает договор с могущественным покровителем без намерения использовать полученну" +
             "ю силу. Подавляющее большинство колдунов проводит свои дни в погоне за своими собственными целями. Как п" +
             "равило, это разного рода приключения. Кроме того, требования покровителей ведут колунов навстречу приклю" +
-            "чениям.";
+            "чениям.\n";
         char [] discr = text_warlock.toCharArray();
         for (int i = 0; i < discr.length; i ++)
             if ((i > 1) && (i % 160 == 0))
                 System.out.print(discr[i] + "\n");
             else
                 System.out.print(discr[i]);
+    }
+    static void Warlock_Ability()
+    {
+        Random rand = new Random();
+        System.out.println("\nВладение:\nДоспехи: Лёгкие доспехи.\nОружие: Простое оружие.\nИнструменты: Нет.\n" +
+                "Спасброски: Мудрость, Харизма.");
+        int warlock_skill_1 = rand.nextInt(7),
+            warlock_skill_2 = rand.nextInt(7),
+            warlock_flag = 1;
+        while (warlock_flag == 1)
+        {
+            if (warlock_skill_1 == warlock_skill_2)
+            {
+                warlock_skill_1 = rand.nextInt(7);
+                warlock_flag = 1;
+            }
+            else
+                warlock_flag = 0;
+        }
+        String [] warlock_skills = {"Анализ","Запугивание","История","Магия","Обман","Природа","Религия"};
+        System.out.println("\nНавыки: " + warlock_skills[warlock_skill_1] + ", " +
+                warlock_skills[warlock_skill_2] + ".");
+        Create_Unit unit_warlock = new Create_Unit();
+        int warlock_item_1_choice = rand.nextInt(2),
+            warlock_item_2_choice = rand.nextInt(2),
+            warlock_item_3_choice = rand.nextInt(2);
+        String [] warlock_item_1 = {"Лёгкий арбалет и 20 болтов к нему.",unit_warlock.Simple_Weapons
+                ("full")},
+                  warlock_item_2 = {"Мешочек с компонентами.","Магическая фокусировка."},
+                  warlock_item_3 = {"Набор учёного.","Набор исследователя подземелий."};
+        System.out.println("\nСнаряжение:\n1) " + warlock_item_1[warlock_item_1_choice] + "\n2) " +
+                warlock_item_2[warlock_item_2_choice] + "\n3) " + warlock_item_3[warlock_item_3_choice] +
+                "\n4) Кожаный доспех, любое простое оружие и два кинжала.");
     }
     int hit_dice_warlock = 8;
 }
@@ -1125,13 +1543,43 @@ class Wizard //+++++++++++++++++++++++++++=-> класс Волшебник <-=+
             "туплениях и стремлении к власти. Но соблазн знаний и силы зовёт даже самых обделённых смелостью волшебни" +
             "ков из безопасности их библиотек и лабораторий в разрушенные руины и потерянные города. Большинство волш" +
             "ебников считает, что их коллеги из древних цивилизаций знали секреты магии, которые были потеряны навек," +
-            " и открывшие эти секреты смогут владеть силами, недоступными в нынешнемм веке.";
+            " и открывшие эти секреты смогут владеть силами, недоступными в нынешнемм веке.\n";
         char [] discr = text_wizard.toCharArray();
         for (int i = 0; i < discr.length; i ++)
             if ((i > 1) && (i % 160 == 0))
                 System.out.print(discr[i] + "\n");
             else
                 System.out.print(discr[i]);
+    }
+    static void Wizard_Ability()
+    {
+        Random rand = new Random();
+        System.out.println("\nВладение:\nДоспехи: Нет.\nОружие: Кинжалы, дротики, пращи, боевые посохи, " +
+                "лёгкие арбалеты.\nИнтсрументы: Нет.\nСпасброски: Интеллект, Мудрость.");
+        int wizard_skill_1 = rand.nextInt(6),
+            wizard_skill_2 = rand.nextInt(6),
+            wizard_flag = 1;
+        while (wizard_flag == 1)
+        {
+            if (wizard_skill_1 == wizard_skill_2)
+            {
+                wizard_skill_1 = rand.nextInt(6);
+                wizard_flag = 1;
+            }
+            else
+                wizard_flag = 0;
+        }
+        String [] wizard_skills = {"Анализ","История","Магия","Медицина","Проницательность","Религия"};
+        System.out.println("\nНавыки: " + wizard_skills[wizard_skill_1] + ", " + wizard_skills[wizard_skill_2] + ".");
+        int wizard_item_1_choice = rand.nextInt(2),
+            wizard_item_2_choice = rand.nextInt(2),
+            wizard_item_3_choice = rand.nextInt(2);
+        String [] wizard_item_1 = {"Боевой посох.","Кинжал."},
+                  wizard_item_2 = {"Мешочек с компонентами.","Магическая фокусировка."},
+                  wizard_item_3 = {"Набор учёного.","Набор путешественника."};
+        System.out.println("\nСнаряжение:\n1) " + wizard_item_1[wizard_item_1_choice] + "\n2) " +
+                wizard_item_2[wizard_item_2_choice] + "\n3) " + wizard_item_3[wizard_item_3_choice] +
+                "\n4) Книга заклинаний.");
     }
     int hit_dice_wizard = 6;
 }
@@ -1215,61 +1663,73 @@ public class main
             case 1:
                 Barbarian barbarian_unit = new Barbarian();
                 barbarian_unit.class_Barbarian();
+                barbarian_unit.Barbarian_Ability();
                 break;
             case 2:
                 Bard bard_unit = new Bard();
                 bard_unit.class_Bard();
+                bard_unit.Bard_Ability();
                 break;
             case 3:
                 Priest priest_unit = new Priest();
                 priest_unit.class_Priest();
+                priest_unit.Priest_Ability();
                 break;
             case 4:
                 Druid druid_unit = new Druid();
                 druid_unit.class_Druid();
+                druid_unit.Druid_Ability();
                 break;
             case 5:
                 Warrior warrior_unit = new Warrior();
                 warrior_unit.class_Warrior();
+                warrior_unit.Warrior_Ability();
                 break;
             case 6:
                 Monk monk_unit = new Monk();
                 monk_unit.class_Monk();
+                monk_unit.Monk_Ability();
                 break;
             case 7:
                 Paladin paladin_unit = new Paladin();
                 paladin_unit.class_Paladin();
+                paladin_unit.Paladin_Ability();
                 break;
             case 8:
                 Ranger ranger_unit = new Ranger();
                 ranger_unit.class_Ranger();
+                ranger_unit.Ranger_Ability();
                 break;
             case 9:
                 Rogue rogue_unit = new Rogue();
                 rogue_unit.class_Rogue();
+                rogue_unit.Rogue_Ability();
                 break;
             case 10:
                 Sorcerer sorcerer_unit = new Sorcerer();
                 sorcerer_unit.class_Sorcerer();
+                sorcerer_unit.Sorcerer_Ability();
                 break;
             case 11:
                 Warlock warlock_unit = new Warlock();
                 warlock_unit.class_Warlock();
+                warlock_unit.Warlock_Ability();
                 break;
             case 12:
                 Wizard wizard_unit = new Wizard();
                 wizard_unit.class_Wizard();
+                wizard_unit.Wizard_Ability();
                 break;
         }
     }
     public static void main (String [] args) throws InterruptedException
     {
         int count = 1,  race = 0, clas = 0, gender = 0;
-        while (count > 0)// цикл, который в случае ввода недопустимого знаения, возвращает первые вопросы.
+        while (count > 0)// цикл, который в случае ввода недопустимого значения, возвращает первый вопрос.
         {
             System.out.println("\u001B[36m" + "Добро пожаловать в программу генерирования персонажа, для игры в D&D.");
             System.out.print("Выберете режим создания вашего персонажа: \n1 - Автоматический. \n2 - Полуавтоматичес" +
-                                                                                          "кий. \n--> " + "\u001B[0m");
+                    "кий. \n--> " + "\u001B[0m");
             Scanner key = new Scanner(System.in);
             int mode = key.nextInt();
             /*char [] error = {'0','3','4','5','6','7','8','9','A','a','B','b','C','c','D','d','E','e','F','f','G','g','J','j',
@@ -1308,7 +1768,7 @@ public class main
 //+++++++++++++++++++++++++=-> визуальное отображение "размышлений" компьютера при автоматическом создании персонажа.+++
             System.out.print("Идёт создание персонажа:");
             Random rand = new Random();
-            int pixel = (rand.nextInt(6) + 3);
+            int pixel = (rand.nextInt(5) + 3);
             for (int i = 0; i < pixel; i++)
             {
                 System.out.print(".");
@@ -1318,7 +1778,6 @@ public class main
             int rand_gender = (rand.nextInt(2) + 1);
             int rand_race = (rand.nextInt(9) + 1);
             int rand_class = (rand.nextInt(12) + 1);
-
             Character(rand_gender, rand_race, rand_class);
             System.out.println(" ");
         }
@@ -1328,19 +1787,16 @@ public class main
             System.out.print("Выберите пол персонажа: \n1. Мужской \n2. Женский \n--> ");
             Scanner key_1 = new Scanner(System.in);
             gender = key_1.nextInt();
-
             System.out.print("Выберете расу: ");
             System.out.print("\n1. Дварф\n2. Эльф\n3. Полурослик\n4. Человек\n5. Драконорожденный\n6. Гном\n7. Полуэл" +
                     "ьф \n8. Полуорк\n9. Тифлинг \n--> ");
             Scanner key_2 = new Scanner(System.in);
             race = key_2.nextInt();
-
             System.out.print("Выберете класс: ");
             System.out.print("\n1. Варвар\n2. Бард\n3. Жрец\n4. Друид\n5. Воин\n6. Монах\n7. Паладин\n8. Следопыт \n9" +
                     ". Плут\n10. Чародей\n11. Колдун\n12.Волшебник\n--> ");
             Scanner key_3 = new Scanner(System.in);
             clas = key_3.nextInt();
-
             Character(gender, race, clas);
             System.out.println(" ");
         }
