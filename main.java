@@ -33,33 +33,54 @@ class Create_Unit //*********************-=-> создание Unit'a <-=-******
                 "Колдун","Волшебник"};
         return class_array[clas_in - 1];
     }
-    public String Military_Weapons ()
-    {
-        int weapon_1 = rand.nextInt(18);
-        String [] military_weapon = {"Секира.","Алебарда.","Боевая кирка.","Боевой молот.","Боевой топор.","Глефа.",
-                "Двуручный меч.","Длинное копьё.","Длинный меч.","Кнут.","Короткий меч.","Молот.","Моргенштерн.",
-                "Пика.","Рапира.","Секира.","Скимитар.","Трезубец.","Цеп."};
-        return military_weapon[weapon_1];
-    }
-    public String Simple_Weapons(String choice_array)
+    public String Military_Weapons (String choice_array_mil)
     {
         String out = "";
-        if (choice_array == "full")
+        if (choice_array_mil == "full")
         {
-            int weapon_2 = rand.nextInt(15);
+            int all_weapon = rand.nextInt(24);
+            String [] military_weapon = {"Секира.","Алебарда.","Боевая кирка.","Боевой молот.","Боевой топор.","Глефа.",
+                    "Двуручный меч.","Длинное копьё.","Длинный меч.","Кнут.","Короткий меч.","Молот.","Моргенштерн.",
+                    "Пика.","Рапира.","Секира.","Скимитар.","Трезубец.","Цеп.","Арбалет, ручной.","Арбалет, тяжелый.",
+                    "Длинный лук.","Духовая трубка.","Сеть."};
+            out = military_weapon[all_weapon];
+        }
+        if (choice_array_mil == "melee")
+        {
+            int melee_weapon_mil = rand.nextInt(5);
+            String [] military_melee_weapon = {"Арбалет, ручной.","Арбалет, тяжелый.","Длинный лук.","Духовая трубка",
+                    "Сеть"};
+            out = military_melee_weapon[melee_weapon_mil];
+        }
+        if (choice_array_mil == "ranged")
+        {
+            int ranged_weapon_mil = rand.nextInt(19);
+            String [] military_ranged_weapon = {"Секира.","Алебарда.","Боевая кирка.","Боевой молот.","Боевой топор.",
+                    "Глефа.","Двуручный меч.","Длинное копьё.","Длинный меч.","Кнут.","Короткий меч.","Молот.",
+                    "Моргенштерн.","Пика.","Рапира.","Секира.","Скимитар.","Трезубец.","Цеп."};
+            out = military_ranged_weapon[ranged_weapon_mil];
+        }
+        return out;
+    }
+    public String Simple_Weapons(String choice_array_simp)
+    {
+        String out = "";
+        if (choice_array_simp == "full")
+        {
+            int weapon = rand.nextInt(15);
             String [] simple_weapon = {"Два ручных топора.","Боевой посох.","Булава.","Дубинка.","Кинжал.","Копьё.",
                     "Лёгкий молот.","Метательное копьё.","Палица.","Ручной топор.","Серп.","Лёгкий арбалет.","Дротик.",
                     "Короткий лук.","Праща."};
-            out =  simple_weapon[weapon_2];
+            out =  simple_weapon[weapon];
         }
-        if (choice_array == "melee")
+        if (choice_array_simp == "melee")
         {
             int melee_weapon = rand.nextInt(7);
-            String [] simple_weapon = {"Боевой посох.","Булава.","Дубинка.","Лёгкий молот.","Кинжал.","Палица.",
+            String [] simple_melee_weapon = {"Боевой посох.","Булава.","Дубинка.","Лёгкий молот.","Кинжал.","Палица.",
                     "Серп."};
-            out = simple_weapon[melee_weapon];
+            out = simple_melee_weapon[melee_weapon];
         }
-        if (choice_array == "ranged")
+        if (choice_array_simp == "ranged")
         {
             int ranged_weapon = rand.nextInt(8);
             String [] simple_weapon = {"Кинжал.","Копьё.","Метательное копьё.","Ручной топор.","Лёгкий арбалет.",
@@ -67,6 +88,12 @@ class Create_Unit //*********************-=-> создание Unit'a <-=-******
             out = simple_weapon[ranged_weapon];
         }
         return out;
+    }
+    public int Unit_Characteristic ()
+    {
+        int [] value_random = {13, 12, 10, 8};
+        int value = rand.nextInt(4);
+        return value_random[value];
     }
 }
 //------------------------------------------> ОПИСАНИЕ РАС ПЕРСОНАЖЕЙ <-------------------------------------------------
@@ -832,12 +859,39 @@ class Barbarian //++++++++++++++++++++++++=-> класс Варвар <-=+++++++
         Create_Unit unit_barbarian = new Create_Unit();
         int barbarian_primary_weapon_choice = rand.nextInt(2),
             barbarian_secondary_weapon_choice = rand.nextInt(2);
-        String [] barbarian_primary_weapon = {"Секира.", unit_barbarian.Military_Weapons()},
-                  barbarian_secondary_weapon = {"Два ручных топора.", unit_barbarian.Simple_Weapons("full")};
+        String [] barbarian_primary_weapon = {"Секира.", unit_barbarian.Military_Weapons("full")},
+                  barbarian_secondary_weapon = {"Два ручных топора.",
+                  unit_barbarian.Simple_Weapons("full")};
         System.out.println("\nСнаряжение:\n1) " + barbarian_primary_weapon[barbarian_primary_weapon_choice] +
                 "\n2) " + barbarian_secondary_weapon[barbarian_secondary_weapon_choice] + "\n3) Набор путешественника" +
                 " и четыре метательных копья.");
+        int one = unit_barbarian.Unit_Characteristic(), two = unit_barbarian.Unit_Characteristic(),
+                three = unit_barbarian.Unit_Characteristic(), four = unit_barbarian.Unit_Characteristic();
+        barbarian_flag = 1;
+        while (barbarian_flag == 1)
+        {
+            if ((one == two) || (one == three) || (one == four))
+            {
+                one = unit_barbarian.Unit_Characteristic();
+                barbarian_flag = 1;
+            }
+            else if ((two == three) || (two == four))
+            {
+                two = unit_barbarian.Unit_Characteristic();
+                barbarian_flag = 1;
+            }
+            else if (three == four)
+            {
+                three = unit_barbarian.Unit_Characteristic();
+                barbarian_flag = 1;
+            }
+            else
+                barbarian_flag = 0;
+        }
+        System.out.println("\nХарактеристики: \nСила: 15.\nЛовкость: " + one + ".\nТелосложение: 14.\nИнтеллект: "
+                           + two + ".\nМудрость: " + three + ".\nХаризма: " + four + ".");
         int hit_dice_barbarian = 12;
+        System.out.println("\nКоличество Хитов: " + hit_dice_barbarian);
     }
 }
 class Bard //+++++++++++++++++++++++++++++=-> класс Бард <-=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -920,8 +974,34 @@ class Bard //+++++++++++++++++++++++++++++=-> класс Бард <-=+++++++++++
         System.out.println("\nСнаряжение:\n1) " + bard_item_1[bard_item_1_choice] + "\n2) " +
                 bard_item_2[bard_item_2_choice] + "\n3) " + bard_item_3[bard_item_3_choice] +
                 "\n4) Кожанный доспех и кинжал.");
+        int one = unit_bard.Unit_Characteristic(), two = unit_bard.Unit_Characteristic(),
+                three = unit_bard.Unit_Characteristic(), four = unit_bard.Unit_Characteristic();
+        bard_flag = 1;
+        while (bard_flag == 1)
+        {
+            if ((one == two) || (one == three) || (one == four))
+            {
+                one = unit_bard.Unit_Characteristic();
+                bard_flag = 1;
+            }
+            else if ((two == three) || (two == four))
+            {
+                two = unit_bard.Unit_Characteristic();
+                bard_flag = 1;
+            }
+            else if (three == four)
+            {
+                three = unit_bard.Unit_Characteristic();
+                bard_flag = 1;
+            }
+            else
+                bard_flag = 0;
+        }
+        System.out.println("\nХарактеристики: \nСила: " + one + ".\nЛовкость: 14.\nТелосложение: " + two +
+                           ".\nИнтеллект: " + three + ".\nМудрость: " + four + ".\nХаризма: 15.");
+        int hit_dice_bard = 8;
+        System.out.println("\nКоличество Хитов: " + hit_dice_bard);
     }
-    int hit_dice_bard = 8;
 }
 class Priest //+++++++++++++++++++++++++++=-> класс Жрец <-=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 {
@@ -985,8 +1065,35 @@ class Priest //+++++++++++++++++++++++++++=-> класс Жрец <-=+++++++++++
                   priest_item_3 = {"Набор священика.", "Набор путешественника."};
         System.out.println("\nСнаряжение: " + "\n1) " + priest_item_1[priest_item_1_choice] + "\n2) " +
                 priest_item_2[priest_item_2_choice] + "\n3) " + priest_item_3[priest_item_3_choice]);
+        Create_Unit unit_priest = new Create_Unit();
+        int one = unit_priest.Unit_Characteristic(), two = unit_priest.Unit_Characteristic(),
+                three = unit_priest.Unit_Characteristic(), four = unit_priest.Unit_Characteristic();
+        priest_flag = 1;
+        while (priest_flag == 1)
+        {
+            if ((one == two) || (one == three) || (one == four))
+            {
+                one = unit_priest.Unit_Characteristic();
+                priest_flag = 1;
+            }
+            else if ((two == three) || (two == four))
+            {
+                two = unit_priest.Unit_Characteristic();
+                priest_flag = 1;
+            }
+            else if (three == four)
+            {
+                three = unit_priest.Unit_Characteristic();
+                priest_flag = 1;
+            }
+            else
+                priest_flag = 0;
+        }
+        System.out.println("\nХарактеристики: \nСила: 14.\nЛовкость: "+ one + ".\nТелосложение: " + two +
+                           ".\nИнтеллект: " + three + ".\nМудрость: 15.\nХаризма: " + four + ".");
+        int hit_dice_priest = 8;
+        System.out.println("\nКоличество Хитов: " + hit_dice_priest);
     }
-    int hit_dice_priest = 8;
 }
 class Druid //++++++++++++++++++++++++++++=-> класс Друид <-=+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 {
@@ -1049,8 +1156,34 @@ class Druid //++++++++++++++++++++++++++++=-> класс Друид <-=+++++++++
         System.out.println("\nСнаряжение: \n1) " + druid_item_1[druid_item_1_choice] + "\n2) "
                 + druid_item_2[druid_item_2_choice] + "\n3) Кожаный доспех, набор путешественника и фокусировка " +
                 "друидов.");
+        int one = unit_druid.Unit_Characteristic(), two = unit_druid.Unit_Characteristic(),
+            three = unit_druid.Unit_Characteristic(), four = unit_druid.Unit_Characteristic();
+        druid_flag = 1;
+        while (druid_flag == 1)
+        {
+            if ((one == two) || (one == three) || (one == four))
+            {
+                one = unit_druid.Unit_Characteristic();
+                druid_flag = 1;
+            }
+            else if ((two == three) || (two == four))
+            {
+                two = unit_druid.Unit_Characteristic();
+                druid_flag = 1;
+            }
+            else if (three == four)
+            {
+                three = unit_druid.Unit_Characteristic();
+                druid_flag = 1;
+            }
+            else
+                druid_flag = 0;
+        }
+        System.out.println("\nХарактеристики: \nСила: " + one + ".\nЛовкость: " + two + ".\nТелосложение: 14." +
+                           "\nИнтеллект: " + three + ".\nМудрость: 15.\nХаризма: " + four + ".");
+        int hit_dice_druid = 8;
+        System.out.println("\nКоличество Хитов: " + hit_dice_druid);
     }
-    int hit_dice_druid = 8;
 }
 class Warrior //++++++++++++++++++++++++++=-> класс Воин <-=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 {
@@ -1107,15 +1240,55 @@ class Warrior //++++++++++++++++++++++++++=-> класс Воин <-=+++++++++++
             warrior_item_3_choice = rand.nextInt(2),
             warrior_item_4_choice = rand.nextInt(2);
         String [] warrior_item_1 = {"Кольчуга.","Кожаный доспех, длинный лук и 20 стрел."},
-                  warrior_item_2 = {unit_warrior.Military_Weapons() + "\n   Щит.",unit_warrior.Military_Weapons() +
-                                    "\n   " + unit_warrior.Military_Weapons()},
+                  warrior_item_2 = {unit_warrior.Military_Weapons("ranged") + "\n   Щит.",
+                                    unit_warrior.Military_Weapons("ranged") + "\n   " +
+                                    unit_warrior.Military_Weapons("full")},
                   warrior_item_3 = {"Лёгкий арбалет и 20 болтов.","2 ручных топора."},
-                  warrior_item_4 = {"Набор исследователя подземелий","Набор путешественника."};
+                  warrior_item_4 = {"Набор исследователя подземелий.","Набор путешественника."};
         System.out.println("\nСнаряжение: \n1) " + warrior_item_1[warrior_item_1_choice] + "\n2) " +
                 warrior_item_2[warrior_item_2_choice] + "\n3) " + warrior_item_3[warrior_item_3_choice] + "\n4) " +
                 warrior_item_4[warrior_item_4_choice]);
+        int one = unit_warrior.Unit_Characteristic(), two = unit_warrior.Unit_Characteristic(),
+                three = unit_warrior.Unit_Characteristic(), four = unit_warrior.Unit_Characteristic();
+        warrior_flag = 1;
+        while (warrior_flag == 1)
+        {
+            if ((one == two) || (one == three) || (one == four))
+            {
+                one = unit_warrior.Unit_Characteristic();
+                warrior_flag = 1;
+            }
+            else if ((two == three) || (two == four))
+            {
+                two = unit_warrior.Unit_Characteristic();
+                warrior_flag = 1;
+            }
+            else if (three == four)
+            {
+                three = unit_warrior.Unit_Characteristic();
+                warrior_flag = 1;
+            }
+            else
+                warrior_flag = 0;
+        }
+        if ((warrior_item_1[warrior_item_1_choice] == "Кожаный доспех, длинный лук и 20 стрел.") ||
+            (warrior_item_2[warrior_item_2_choice] == "Арбалет, ручной.") ||
+            (warrior_item_2[warrior_item_2_choice] == "Арбалет, тяжелый.") ||
+            (warrior_item_2[warrior_item_2_choice] == "Длинный лук.") ||
+            (warrior_item_2[warrior_item_2_choice] == "Духовая трубка.") ||
+            (warrior_item_2[warrior_item_2_choice] == "Сеть."))
+        {
+            System.out.println("\nХарактеристики: \nСила: " + one + ".\nЛовкость: 15.\nТелосложение: 14." +
+                               "\nИнтеллект: " + two + ".\nМудрость: " + three + ".\nХаризма: " + four + ".");
+        }
+        else
+        {
+            System.out.println("\nХарактеристики: \nСила: 15.\nЛовкость: " + one + ".\nТелосложение: 14." +
+                               "\nИнтеллект: " + two + ".\nМудрость: " + three + ".\nХаризма: " + four + ".");
+        }
+        int hit_dice_druid = 8;
+        System.out.println("\nКоличество Хитов: " + hit_dice_druid);
     }
-    int hit_dice_warrior = 10;
 }
 class Monk //+++++++++++++++++++++++++++++=-> класс Монах <-=+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 {
@@ -1178,8 +1351,34 @@ class Monk //+++++++++++++++++++++++++++++=-> класс Монах <-=+++++++++
                   monk_item_2 = {"Набор исследователя подземелий","Набор путешественника"};
         System.out.println("\nСнаряжение: \n1) " + monk_item_1[monk_item_1_choice] + "\n2) " +
                 monk_item_2[monk_item_2_choice] + "\n3) 10 дротиков.");
+        int one = unit_monk.Unit_Characteristic(), two = unit_monk.Unit_Characteristic(),
+                three = unit_monk.Unit_Characteristic(), four = unit_monk.Unit_Characteristic();
+        monk_flag = 1;
+        while (monk_flag == 1)
+        {
+            if ((one == two) || (one == three) || (one == four))
+            {
+                one = unit_monk.Unit_Characteristic();
+                monk_flag = 1;
+            }
+            else if ((two == three) || (two == four))
+            {
+                two = unit_monk.Unit_Characteristic();
+                monk_flag = 1;
+            }
+            else if (three == four)
+            {
+                three = unit_monk.Unit_Characteristic();
+                monk_flag = 1;
+            }
+            else
+                monk_flag = 0;
+        }
+        System.out.println("\nХарактеристики: \nСила: " + one + ".\nЛовкость: 15.\nТелосложение: " + two +
+                           ".\nИнтеллект: " + three + ".\nМудрость: 14.\nХаризма: " + four + ".");
+        int hit_dice_monk = 8;
+        System.out.println("\nКоличество Хитов: " + hit_dice_monk);
     }
-    int hit_dice_monk = 8;
 }
 class Paladin //++++++++++++++++++++++++++=-> класс Паладин <-=+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 {
@@ -1236,15 +1435,42 @@ class Paladin //++++++++++++++++++++++++++=-> класс Паладин <-=+++++
             paladin_item_2_choice = rand.nextInt(2),
             paladin_item_3_choice = rand.nextInt(2);
         Create_Unit unit_paladin = new Create_Unit();
-        String [] paladin_item_1 = {unit_paladin.Military_Weapons() + "\n   Щит", unit_paladin.Military_Weapons() +
-                                    "\n   " + unit_paladin.Military_Weapons()},
+        String [] paladin_item_1 = {unit_paladin.Military_Weapons("full") + "\n   Щит",
+                                    unit_paladin.Military_Weapons("full") + "\n   " +
+                                    unit_paladin.Military_Weapons("full")},
                   paladin_item_2 = {"Пять метательных копий.", unit_paladin.Simple_Weapons("melee")},
                   paladin_item_3 = {"Набор священика.","Набор путешественника."};
         System.out.println("\nСнаряжение: \n1) " + paladin_item_1[paladin_item_1_choice] + "\n2) " +
                 paladin_item_2[paladin_item_2_choice] + "\n3) " + paladin_item_3[paladin_item_3_choice] +
                 "\n4) Кольчуга и священный символ.");
+        int one = unit_paladin.Unit_Characteristic(), two = unit_paladin.Unit_Characteristic(),
+                three = unit_paladin.Unit_Characteristic(), four = unit_paladin.Unit_Characteristic();
+        paladin_flag = 1;
+        while (paladin_flag == 1)
+        {
+            if ((one == two) || (one == three) || (one == four))
+            {
+                one = unit_paladin.Unit_Characteristic();
+                paladin_flag = 1;
+            }
+            else if ((two == three) || (two == four))
+            {
+                two = unit_paladin.Unit_Characteristic();
+                paladin_flag = 1;
+            }
+            else if (three == four)
+            {
+                three = unit_paladin.Unit_Characteristic();
+                paladin_flag = 1;
+            }
+            else
+                paladin_flag = 0;
+        }
+        System.out.println("\nХарактеристики: \nСила: 15.\nЛовкость: " + one + ".\nТелосложение: " + two +
+                           ".\nИнтеллект: " + three + ".\nМудрость: " + four + ".\nХаризма: 14.");
+        int hit_dice_paladin = 10;
+        System.out.println("\nКоличество Хитов: " + hit_dice_paladin);
     }
-    int hit_dice_paladin = 10;
 }
 class Ranger //+++++++++++++++++++++++++++=-> класс Следопыт <-=++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 {
@@ -1314,8 +1540,34 @@ class Ranger //+++++++++++++++++++++++++++=-> класс Следопыт <-=+++
         System.out.println("\nСнаряжение: \n1) " + ranger_item_1[ranger_item_1_choice] + "\n2) " +
                 ranger_item_2[ranger_item_2_choice] + "\n3) " + ranger_item_3[ranger_item_choice_3] +
                 "\n4) Длинный лук и колчан с 20 стрелами.");
+        int one = unit_ranger.Unit_Characteristic(), two = unit_ranger.Unit_Characteristic(),
+                three = unit_ranger.Unit_Characteristic(), four = unit_ranger.Unit_Characteristic();
+        ranger_flag = 1;
+        while (ranger_flag == 1)
+        {
+            if ((one == two) || (one == three) || (one == four))
+            {
+                one = unit_ranger.Unit_Characteristic();
+                ranger_flag = 1;
+            }
+            else if ((two == three) || (two == four))
+            {
+                two = unit_ranger.Unit_Characteristic();
+                ranger_flag = 1;
+            }
+            else if (three == four)
+            {
+                three = unit_ranger.Unit_Characteristic();
+                ranger_flag = 1;
+            }
+            else
+                ranger_flag = 0;
+        }
+        System.out.println("\nХарактеристики: \nСила: " + one + ".\nЛовкость: 15.\nТелосложение: " + two +
+                           ".\nИнтеллект: " + three + ".\nМудрость: 14.\nХаризма: " + four + ".");
+        int hit_dice_ranger = 10;
+        System.out.println("\nКоличество Хитов: " + hit_dice_ranger);
     }
-    int hit_dice_ranger = 10;
 }
 class Rogue //++++++++++++++++++++++++++++=-> класс Плут <-=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 {
@@ -1388,8 +1640,38 @@ class Rogue //++++++++++++++++++++++++++++=-> класс Плут <-=+++++++++++
         System.out.println("\nСнаряжение: \n1) " + rogue_item_1[rogue_item_1_choice] + "\n2) " +
                 rogue_item_2[rogue_item_2_choice] + "\n3) " + rogue_item_3[rogue_item_3_choice] +
                 "\n4) Кожаная броня, два кинжала, воровские инструменты.");
+        Create_Unit unit_rogue = new Create_Unit();
+        int one = unit_rogue.Unit_Characteristic(), two = unit_rogue.Unit_Characteristic(),
+                three = unit_rogue.Unit_Characteristic(), four = unit_rogue.Unit_Characteristic();
+        rogue_flag = 1;
+        while (rogue_flag == 1)
+        {
+            if ((one == two) || (one == three) || (one == four))
+            {
+                one = unit_rogue.Unit_Characteristic();
+                rogue_flag = 1;
+            }
+            else if ((two == three) || (two == four))
+            {
+                two = unit_rogue.Unit_Characteristic();
+                rogue_flag = 1;
+            }
+            else if (three == four)
+            {
+                three = unit_rogue.Unit_Characteristic();
+                rogue_flag = 1;
+            }
+            else
+                rogue_flag = 0;
+        }
+        System.out.println("\nХарактеристики: \nСила: " + one + ".\nЛовкость: 15.\nТелосложение: " + two +
+                           ".\nИнтеллект: " + three + ".\nМудрость: 14.\nХаризма: " + four + ".");
+
+        // добавить условия выбора!!!
+
+        int hit_dice_rogue = 8;
+        System.out.println("\nКоличество Хитов: " + hit_dice_rogue);
     }
-    int hit_dice_rogue = 8;
 }
 class Sorcerer //+++++++++++++++++++++++++=-> класс Чародей <-=+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 {
@@ -1456,8 +1738,34 @@ class Sorcerer //+++++++++++++++++++++++++=-> класс Чародей <-=+++++
         System.out.println("\nСнаряжение:\n1) " + sorcerer_item_1[sorcerer_item_1_choice] + "\n2) " +
                 sorcerer_item_2[sorcerer_item_2_choice] + "\n3) " + sorcerer_item_3[sorcerer_item_3_choice] +
                 "\n4) Два кинжала.");
+        int one = unit_sorcerer.Unit_Characteristic(), two = unit_sorcerer.Unit_Characteristic(),
+                three = unit_sorcerer.Unit_Characteristic(), four = unit_sorcerer.Unit_Characteristic();
+        sorcerer_flag = 1;
+        while (sorcerer_flag == 1)
+        {
+            if ((one == two) || (one == three) || (one == four))
+            {
+                one = unit_sorcerer.Unit_Characteristic();
+                sorcerer_flag = 1;
+            }
+            else if ((two == three) || (two == four))
+            {
+                two = unit_sorcerer.Unit_Characteristic();
+                sorcerer_flag = 1;
+            }
+            else if (three == four)
+            {
+                three = unit_sorcerer.Unit_Characteristic();
+                sorcerer_flag = 1;
+            }
+            else
+                sorcerer_flag = 0;
+        }
+        System.out.println("\nХарактеристики: \nСила: " + one + ".\nЛовкость: " + two + ".\nТелосложение: 14." +
+                           "\nИнтеллект: " + three + ".\nМудрость: " + four + ".\nХаризма: 15." );
+        int hit_dice_sorcerer = 6;
+        System.out.println("\nКоличество Хитов: " + hit_dice_sorcerer);
     }
-    int hit_dice_sorcerer = 6;
 }
 class Warlock //++++++++++++++++++++++++++=-> класс Колдун <-=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 {
@@ -1522,8 +1830,37 @@ class Warlock //++++++++++++++++++++++++++=-> класс Колдун <-=+++++++
         System.out.println("\nСнаряжение:\n1) " + warlock_item_1[warlock_item_1_choice] + "\n2) " +
                 warlock_item_2[warlock_item_2_choice] + "\n3) " + warlock_item_3[warlock_item_3_choice] +
                 "\n4) Кожаный доспех, любое простое оружие и два кинжала.");
+        int one = unit_warlock.Unit_Characteristic(), two = unit_warlock.Unit_Characteristic(),
+                three = unit_warlock.Unit_Characteristic(), four = unit_warlock.Unit_Characteristic();
+        warlock_flag = 1;
+        while (warlock_flag == 1)
+        {
+            if ((one == two) || (one == three) || (one == four))
+            {
+                one = unit_warlock.Unit_Characteristic();
+                warlock_flag = 1;
+            }
+            else if ((two == three) || (two == four))
+            {
+                two = unit_warlock.Unit_Characteristic();
+                warlock_flag = 1;
+            }
+            else if (three == four)
+            {
+                three = unit_warlock.Unit_Characteristic();
+                warlock_flag = 1;
+            }
+            else
+                warlock_flag = 0;
+        }
+
+        // сделать ветку выбора!
+
+        System.out.println("\nХарактеристики: \nСила: " + one + ".\nЛовкость: " + two + ".\nТелосложение: 14." +
+                           "\nИнтеллект: " + three + ".\nМудрость: " + four + ".\nХаризма: 15." );
+        int hit_dice_warlock = 6;
+        System.out.println("\nКоличество Хитов: " + hit_dice_warlock);
     }
-    int hit_dice_warlock = 8;
 }
 class Wizard //+++++++++++++++++++++++++++=-> класс Волшебник <-=+++++++++++++++++++++++++++++++++++++++++++++++++++++++
 {
@@ -1580,8 +1917,35 @@ class Wizard //+++++++++++++++++++++++++++=-> класс Волшебник <-=+
         System.out.println("\nСнаряжение:\n1) " + wizard_item_1[wizard_item_1_choice] + "\n2) " +
                 wizard_item_2[wizard_item_2_choice] + "\n3) " + wizard_item_3[wizard_item_3_choice] +
                 "\n4) Книга заклинаний.");
+        Create_Unit unit_wizard = new Create_Unit();
+        int one = unit_wizard.Unit_Characteristic(), two = unit_wizard.Unit_Characteristic(),
+                three = unit_wizard.Unit_Characteristic(), four = unit_wizard.Unit_Characteristic();
+        wizard_flag = 1;
+        while (wizard_flag == 1)
+        {
+            if ((one == two) || (one == three) || (one == four))
+            {
+                one = unit_wizard.Unit_Characteristic();
+                wizard_flag = 1;
+            }
+            else if ((two == three) || (two == four))
+            {
+                two = unit_wizard.Unit_Characteristic();
+                wizard_flag = 1;
+            }
+            else if (three == four)
+            {
+                three = unit_wizard.Unit_Characteristic();
+                wizard_flag = 1;
+            }
+            else
+                wizard_flag = 0;
+        }
+        System.out.println("\nХарактеристики: \nСила: " + one + ".\nЛовкость: " + two + ".\nТелосложение: 14." +
+                           "\nИнтеллект: 15.\nМудрость: " + three + ".\nХаризма: " + four + ".");
+        int hit_dice_wizard = 6;
+        System.out.println("\nКоличество Хитов: " + hit_dice_wizard);
     }
-    int hit_dice_wizard = 6;
 }
 //------------------------------------------>  MAIN  <------------------------------------------------------------------
 public class main
@@ -1664,6 +2028,7 @@ public class main
                 Barbarian barbarian_unit = new Barbarian();
                 barbarian_unit.class_Barbarian();
                 barbarian_unit.Barbarian_Ability();
+
                 break;
             case 2:
                 Bard bard_unit = new Bard();
@@ -1724,7 +2089,7 @@ public class main
     }
     public static void main (String [] args) throws InterruptedException
     {
-        int count = 1,  race = 0, clas = 0, gender = 0;
+        int count = 1, race = 0, clas = 0, gender = 0;
         while (count > 0)// цикл, который в случае ввода недопустимого значения, возвращает первый вопрос.
         {
             System.out.println("\u001B[36m" + "Добро пожаловать в программу генерирования персонажа, для игры в D&D.");
